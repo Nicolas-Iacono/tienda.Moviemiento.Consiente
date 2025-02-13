@@ -1,0 +1,34 @@
+/* Contenedor de los puntos */
+.splide__pagination {
+  position: relative; /* Posiciona los puntos en relación al slider */
+  top: 50%; /* Centra los puntos verticalmente */
+   /* Los mueve a la izquierda */
+  display: flex;
+  flex-direction: column; /* Hace que los puntos se apilen verticalmente */
+  height: 10rem;
+  gap: 0.5rem;
+  right: 0;
+  transform: translateY(70%); /* Los mueve hacia arriba */
+}
+
+/* Puntos individuales */
+.splide__pagination__page {
+  width: 12px;
+  height: 12px;
+  background-color: gray;
+  border-radius: 50%;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Punto activo */
+.splide__pagination__page.is-active {
+  background-color: #e8621d;
+  transform: scale(1.2);
+}
+.splide {
+  
+  margin:"0 auto";
+  display:flex;
+  margin-top:-3rem;
+  width:60%;
+}

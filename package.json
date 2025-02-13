@@ -1,0 +1,38 @@
+{
+  "name": "mega_ofertas",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mercadopago/sdk-react": "^0.0.23",
+    "@mui/icons-material": "^6.2.0",
+    "@mui/material": "^6.1.10",
+    "@splidejs/react-splide": "^0.7.12",
+    "@supabase/supabase-js": "^2.48.1",
+    "animejs": "^3.2.2",
+    "axios": "^1.7.9",
+    "browser-image-compression": "^2.0.2",
+    "formik": "^2.4.6",
+    "framer-motion": "^12.0.6",
+    "jwt-decode": "^4.0.0",
+    "lodash": "^4.17.21",
+    "mega_ofertas": "file:",
+    "next": "^15.0.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sweetalert2": "^11.15.10",
+    "swiper": "^11.2.1",
+    "yup": "^1.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "15.0.4"
+  }
+}
