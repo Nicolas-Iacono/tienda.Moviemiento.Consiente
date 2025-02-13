@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Crear instancia de axios con configuración base
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://backend-megaofertas-production.up.railway.app',
   timeout: 10000, // 10 segundos de timeout
   headers: {
     'Content-Type': 'application/json',

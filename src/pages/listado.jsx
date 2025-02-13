@@ -5,7 +5,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import anime from 'animejs';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-const listado = () => {
+
+const Listado = () => {
     const[productos, setProductos] = useState([])
 
 
@@ -93,4 +94,4 @@ return (
 );
 }
 
-export default listado
+export default Listado

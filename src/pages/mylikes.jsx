@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import API from "../utils/api"; // Verifica que esta ruta sea correcta.
 import ProductCardCategory from "@/components/ProductCardCategory";
 import { useMyUserContext } from "@/context/userContext";
-const mylikes = () => {
+
+const MyLikes = () => {
   const router = useRouter();
   // const { userId } = router.query;
   const [userId, setUserId] = useState(null);
@@ -125,4 +126,4 @@ console.log(products)
   );
 };
 
-export default mylikes;
+export default MyLikes;

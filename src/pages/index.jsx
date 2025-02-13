@@ -53,11 +53,23 @@ export default function Home() {
   const fetchProductos = useCallback(async () => {
     try {
       setIsLoading(true);
+      console.log('📦 Iniciando fetch de productos...');
       const response = await API.get('/products/all');
+      console.log('✅ Productos recibidos:', response.data.length);
       setProductos(response.data);
       setProductosFiltrados(response.data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('❌ Error al cargar productos:', error.message);
+      if (error.response) {
+        console.error('Detalles del error:', {
+          status: error.response.status,
+          data: error.response.data
+        });
+      } else if (error.request) {
+        console.error('No se recibió respuesta del servidor');
+      } else {
+        console.error('Error al configurar la petición:', error.message);
+      }
     } finally {
       setIsLoading(false);
     }

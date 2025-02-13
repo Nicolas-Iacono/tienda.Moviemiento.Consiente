@@ -16,7 +16,7 @@ import {
   Container,
   Typography,
 } from '@mui/material';
-import axios from 'axios';
+import API from '@/utils/api';
 
 const Categorias = () => {
   const [categories, setCategories] = useState([]);
@@ -26,7 +26,7 @@ const Categorias = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/category/all');
+      const response = await API.get('/category/all');
       setCategories(response.data);
     } catch (error) {
       console.error('Error al obtener categorías:', error);
@@ -55,7 +55,7 @@ const Categorias = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/category/crear-category', {
+      await API.post('/category/crear-category', {
         name: newCategory,
       });
       fetchCategories();
