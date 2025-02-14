@@ -25,6 +25,7 @@
     "lodash": "^4.17.21",
     "mega_ofertas": "file:",
     "next": "^15.0.5",
+    "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sweetalert2": "^11.15.10",

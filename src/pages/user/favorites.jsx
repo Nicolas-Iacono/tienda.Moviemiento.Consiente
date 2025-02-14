@@ -17,15 +17,15 @@ const FavoritesPage = () => {
           // Inicializar products como un array vacío y formatear los datos correctamente
           const products = response.data ? response.data.map(item => ({
             id: item.Product.id,
-            nombre: item.Product.name,
-            name: item.Product.name,
+            nombre: item.Product.nombre,          // Cambiado de 'name' a 'nombre'
+            name: item.Product.nombre,            // Si tu ProductCard usa 'name'
             imagenes: item.Product.imagenes,
             images: item.Product.imagenes,
-            price: item.Product.price,
-            priceLista: item.Product.priceLista,
+            price: item.Product.precioVenta,      // Cambiado de 'price' a 'precioVenta'
+            priceLista: item.Product.precioLista, // Se mantiene igual (siempre que la UI lo requiera)
             stock: item.Product.stock,
             descripcion: item.Product.descripcion,
-            brand: item.Product.brand,
+            brand: item.Product.marca,            // Cambiado de 'brand' a 'marca'
             likeId: item.id
           })) : [];
           setFavorites(products);

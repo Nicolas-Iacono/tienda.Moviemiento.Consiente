@@ -47,7 +47,7 @@ const FixedBottomNavigation = () => {
 
   // Redirigir al home si el usuario cambia de tipo (admin/user)
   useEffect(() => {
-    const adminPaths = ['/admin', '/categorias', '/listado', '/ventas', '/users'];
+    const adminPaths = ['/admin', '/categorias','/', '/listado', '/ventas', '/users'];
     const isAdminPath = adminPaths.some(path => router.pathname.startsWith(path));
     
     if (router.pathname !== '/') {
@@ -116,7 +116,17 @@ const FixedBottomNavigation = () => {
                 label="Inventario" 
                 icon={<InventoryIcon />} 
                 onClick={() => handleNavigation("/listado")}
-              />
+              /> 
+              <BottomNavigationAction 
+              label="Inicio" 
+              icon={<HomeRoundedIcon />} 
+              onClick={() => handleNavigation("/")}
+              sx={{
+                "& .MuiSvgIcon-root": {
+                  fontSize: "1.8rem"
+                }
+              }}
+            />
               <BottomNavigationAction 
                 label="Ventas" 
                 icon={<MonetizationOnIcon />} 

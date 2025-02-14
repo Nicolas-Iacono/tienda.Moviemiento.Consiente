@@ -9,12 +9,14 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  Divider
+  Divider,
+  Button
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useMyCarritoContext } from '@/context/carritoContext';
 import PayButton from '../buttons/PayButton';
+import { useRouter } from 'next/router';
 
 const MobileCart = ({ isOpen, onClose }) => {
   const { carrito, eliminarDelCarrito } = useMyCarritoContext();
@@ -22,6 +24,12 @@ const MobileCart = ({ isOpen, onClose }) => {
 
   // Calcular el total del carrito
   const total = carrito.reduce((sum, item) => sum + Number(item.precioVenta || item.price), 0);
+
+  const router = useRouter();
+  const handleCart = () => {
+    router.push('/cart');
+    onClose();
+  };
 
   // Manejar el gesto de arrastre
   const handleDragStart = (event, info) => {
@@ -127,7 +135,6 @@ const MobileCart = ({ isOpen, onClose }) => {
                         primary={item.nombre || item.name}
                         secondary={`$${Number(item.precioVenta || item.price).toLocaleString()}`}
                       />
-                      <ListItemSecondaryAction>
                         <IconButton
                           edge="end"
                           onClick={() => eliminarDelCarrito(item.id)}
@@ -135,7 +142,6 @@ const MobileCart = ({ isOpen, onClose }) => {
                         >
                           <DeleteOutlineIcon />
                         </IconButton>
-                      </ListItemSecondaryAction>
                     </ListItem>
                   ))
                 )}
@@ -147,11 +153,17 @@ const MobileCart = ({ isOpen, onClose }) => {
                   <Typography variant="h6" gutterBottom>
                     Total: ${total.toLocaleString()}
                   </Typography>
-                  <PayButton 
+                  <Button 
+                  sx={{width:"100%", height:"2rem", backgroundColor:"orange", color:"white"}}
+                    onClick={handleCart} 
                     products={carrito}
                     onSuccess={handlePaymentSuccess}
-                    buttonText="Proceder al Pago"
-                  />
+                    buttonText="Ver mi carrito"
+                  >
+                    <Typography>
+                    Ver mi carrito
+                    </Typography>
+                  </Button>
                 </Box>
               )}
             </Paper>

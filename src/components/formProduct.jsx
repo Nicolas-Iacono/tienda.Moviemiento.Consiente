@@ -14,6 +14,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import SelectAPI from "./selectCategoria"; 
 import SwitchDisponibility from "./buttons/SwitchDisponibility";
 import API from "@/utils/api";
+import ImageUploader from "./ImageUploader";
 
 const validationSchema = Yup.object({
   nombre: Yup.string().required("El nombre es obligatorio"),
@@ -79,12 +80,6 @@ const [view, setView] = useState(false);
   const handleRemoveImageField = (index) => {
     const newImages = formik.values.imagenes.filter((_, i) => i !== index);
     formik.setFieldValue("imagenes", newImages);
-  };
-
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    const imageUrls = files.map(file => URL.createObjectURL(file));
-    formik.setFieldValue("imagenes", imageUrls);
   };
 
   return (
@@ -199,13 +194,7 @@ const [view, setView] = useState(false);
         </Box>
         <Box>
         <Typography variant="h6" sx={{color:"black"}}>Agregar imágenes de producto</Typography>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleImageUpload}
-          style={{ margin: '10px 0' }}
-        />
+        <ImageUploader onUploadComplete={(urls) => formik.setFieldValue('imagenes', urls)} />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {formik.values.imagenes.map((imagen, index) => (
             <CardMedia
@@ -217,25 +206,6 @@ const [view, setView] = useState(false);
             />
           ))}
         </Box>
-        {formik.values.imagenes.map((imagen, index) => (
-          <Box key={index}>
-            <TextField
-              sx={{marginTop:"1rem"}}
-              label={`Imagen URL ${index + 1}`}
-              value={imagen}
-              onChange={(e) =>
-                formik.setFieldValue(
-                  `imagenes[${index}]`,
-                  e.target.value
-                )
-              }
-            />
-            <IconButton onClick={() => handleRemoveImageField(index)}>
-              <RemoveIcon />
-            </IconButton>
-          </Box>
-        ))}
-        <Button onClick={handleAddImageField}>Agregar Imagen</Button>
         </Box>
         <Box sx={{ width:"100%",display:"flex",justifyContent:{xs:"center", md:"end"},alignItems:"center"}}>
         <Button type="submit" variant="contained" color="primary">
@@ -251,4 +221,3 @@ const [view, setView] = useState(false);
 };
 
 export default ProductoForm;
-

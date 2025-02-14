@@ -30,7 +30,16 @@ const MobileMenu = ({ open, onClose }) => {
   const router = useRouter();
   const { user, logout } = useMyUserContext();
 
-  console.log("admin:", user.authorities[0]);
+  const[logued, setLogued] = useState(false);
+
+  useEffect(() => {
+    const userLogued = localStorage.getItem("user");
+    setLogued(!!userLogued);
+  },[]);
+  
+
+  console.log("sesion",logued ? "INICIADA":"NO INICIADA");
+
   const [isAdmin,setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -140,7 +149,7 @@ const MobileMenu = ({ open, onClose }) => {
         <Divider sx={{ my: 2 }} />
 
         <List>
-          {user && (
+          {user && logued && (
             <>
               <ListItem button onClick={handleProfile}>
                 <ListItemIcon>
@@ -167,12 +176,21 @@ const MobileMenu = ({ open, onClose }) => {
             </ListItem>
           )}
 
-          {user && (
+          {logued && (
             <ListItem button onClick={handleLogout}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText primary="Cerrar Sesión" />
+            </ListItem>
+          )}
+
+          {!logued && (
+            <ListItem button onClick={handleLogin}>
+              <ListItemIcon>
+                <LoginIcon />
+              </ListItemIcon>
+              <ListItemText primary="Iniciar Sesión" />
             </ListItem>
           )}
         </List>
