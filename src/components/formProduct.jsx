@@ -34,6 +34,18 @@ const validationSchema = Yup.object({
     .min(1, "Debe agregar al menos una imagen"),
   categoriaId: Yup.number().required("La categoría es obligatoria"),
   disponible: Yup.boolean().required("La disponibilidad es obligatoria"),
+  alto:Yup.number().required("la altura es necesaria para calcular el envio")
+  .max(150, "El alto maximo permitido es de 150 cm"),
+  ancho:Yup.number().required("El ancho es necesario para calcular el envio")
+  .max(150, "El ancho maximo permitido es de 150 cm"),
+  largo:Yup.number().required("El largo es necesario para calcular el envio")
+  .max(150, "El largo maximo permitido es de 150 cm"),
+  peso:Yup.number().required("El peso es necesario para calcular el envio")
+  .min(1, "El peso minimo permitido es de 1 gramo")
+  .max(25000, "El peso maximo permitido es de 25.000 gramos"),
+
+
+
 });
 
 const ProductoForm = () => {
@@ -51,6 +63,10 @@ const [view, setView] = useState(false);
       categoriaId: "", // Inicializa en vacío
       imagenes: [""],
       disponible: true,
+      alto:0,
+      ancho:0,
+      largo:0,
+      peso:0
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -155,6 +171,45 @@ const [view, setView] = useState(false);
           error={formik.touched.precioVenta && Boolean(formik.errors.precioVenta)}
           helperText={formik.touched.precioVenta && formik.errors.precioVenta}
         />
+        <Box sx={{display:"flex",gap:2,flexDirection:"row", alignItems:"center",justifyContent:"space-between"}}>
+        <TextField
+          type="number"
+          label="Alto"
+          name="alto"
+          value={formik.values.alto}
+          onChange={formik.handleChange}
+          error={formik.touched.alto && Boolean(formik.errors.alto)}
+          helperText={formik.touched.alto && formik.errors.alto}
+        />
+         <TextField
+          type="number"
+          label="Ancho"
+          name="ancho"
+          value={formik.values.ancho}
+          onChange={formik.handleChange}
+          error={formik.touched.ancho && Boolean(formik.errors.ancho)}
+          helperText={formik.touched.ancho && formik.errors.ancho}
+        />
+        <TextField
+          type="number"
+          label="Largo"
+          name="largo"
+          value={formik.values.largo}
+          onChange={formik.handleChange}
+          error={formik.touched.largo && Boolean(formik.errors.largo)}
+          helperText={formik.touched.largo && formik.errors.largo}
+        />
+         <TextField
+          type="number"
+          label="Peso"
+          name="peso"
+          value={formik.values.peso}
+          onChange={formik.handleChange}
+          error={formik.touched.peso && Boolean(formik.errors.peso)}
+          helperText={formik.touched.peso && formik.errors.peso}
+        />
+
+        </Box>
         </Box>
         <Box sx={{width:{xs:"100%", md:"100%"},marginTop:"1rem", gap:2, display:"flex", flexDirection:{xs:"column", md:"row"}, justifyContent:{md:"space-between"}, height:{md:"auto"}}}>
 
