@@ -27,6 +27,7 @@ const CartPage = () => {
     decrementarCantidad,
     incrementarCantidad,
   } = useMyCarritoContext();
+
   const { user } = useMyUserContext();
   const [loading, setLoading] = useState(false);
   console.log(user);
@@ -37,17 +38,14 @@ const CartPage = () => {
     return acc + precio * cantidad;
   }, 0);
 
+  useEffect(() => {
+    API.get(`/users/${user.id}`)
+      .then((res) => setUserStorage(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
+
   const handleCheckout = async () => {
-    
-    useEffect(() => {
-      API.get(`/users/${user.id}`)
-        .then((res) => setUserStorage(res.data))
-        .catch((err) => console.error(err));
-    }, []);
-
-    console.log(response)
-
-
     try {
       setLoading(true);
       const items = carrito.map((item) => ({
