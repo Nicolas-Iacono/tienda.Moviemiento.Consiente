@@ -33,20 +33,6 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
     }
   }, [incrementarCantidad, decrementarCantidad]);
 
-  const handleConfirmPurchase = useCallback(async () => {
-    if (carrito.length === 0) return;
-    setLoading(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      vaciarCarrito();
-      onClose?.();
-    } catch (error) {
-      console.error('Error al procesar la compra:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [carrito, vaciarCarrito, onClose]);
-
   const handlePagar = async () => {
     if (!user) {
       Swal.fire({
@@ -260,21 +246,7 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
             "Pagar"
           )}
         </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={handleConfirmPurchase}
-          disabled={loading || carrito.length === 0}
-          sx={{
-            backgroundColor: "#e8621d",
-            '&:hover': {
-              backgroundColor: "#d55a1d"
-            },
-            mt: 2
-          }}
-        >
-          {loading ? <CircularProgress size={24} color="inherit" /> : "Confirmar Compra"}
-        </Button>
+      
       </Box>
     </Box>
   );

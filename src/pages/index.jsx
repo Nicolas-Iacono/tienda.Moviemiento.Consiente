@@ -180,7 +180,9 @@ export default function Home() {
           flexWrap: "wrap",
           gap: "1.5rem"
         }}>
-          {currentProducts.map((producto) => (
+          {currentProducts
+          .filter(producto => producto.disponible)
+          .map((producto) => (
             <Box
               key={producto.id}
               sx={{
