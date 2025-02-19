@@ -30,7 +30,10 @@ const CartPage = () => {
 
   const { user } = useMyUserContext();
   const [loading, setLoading] = useState(false);
+  const [payer, setPayer] = useState({});
   console.log(user);
+
+
   // Calcular el total
   const total = carrito.reduce((acc, item) => {
     const precio = parseFloat(item.price) || 0;
@@ -39,12 +42,18 @@ const CartPage = () => {
   }, 0);
 
   useEffect(() => {
-    API.get(`/users/${user.id}`)
-      .then((res) => setUserStorage(res.data))
-      .catch((err) => console.error(err));
+    const fetchUser = async () => {
+      try {
+        const response = await API.get(`/users/${user.id}`)
+        setPayer(response.data)
+      } catch (error) {
+        console.error("Error al obtener los usuarios:", error);
+      }
+    };
+    fetchUser();
   }, []);
 
-
+  console.log(payer)
   const handleCheckout = async () => {
     try {
       setLoading(true);
@@ -57,8 +66,28 @@ const CartPage = () => {
         image: item.imagenes?.[0], // Primera imagen del producto
       }));
 
-      const response = await API.post("/payment/create_preference", { items });
+      const formattedPayer = {
+        id: payer.id,
+        name: payer.first_name,
+        surname: payer.last_name,
+        email: payer.email,
+        phone: {
+          area_code: payer.phone.area_code,
+          number: payer.phone.number,
+        },
+        address: {
+          zip_code: payer.address.zip_code,
+          street_name: payer.address.street_name,
+          street_number: payer.address.street_number,
+        },
+      };
+
+      const response = await API.post("/payment/create_preference", {
+        items,
+        payer: formattedPayer,
+      });
       if (response.data && response.data.init_point) {
+        console.log(response)
         window.location.href = response.data.init_point;
       }
     } catch (error) {

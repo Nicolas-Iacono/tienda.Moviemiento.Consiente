@@ -56,15 +56,12 @@ const FixedBottomNavigation = () => {
     const isAdminPath = adminPaths.some((path) =>
       router.pathname.startsWith(path)
     );
-
-    if (router.pathname !== "/") {
-      const shouldRedirect =
-        (isAdmin() && !isAdminPath) || (!isAdmin() && isAdminPath);
-
-      if (shouldRedirect) {
-        router.push("/");
-      }
+    
+    if (router.pathname !== "/" && !isAdmin() && isAdminPath) {
+      router.push("/");
     }
+      
+    
   }, [isAdmin, router.pathname]);
 
   const handleNavigation = (path) => {

@@ -96,13 +96,14 @@ export const HeaderDesk = () => {
   const cartItemCount = carrito?.length || 0;
 
   return (
-    <header className='header-desktop'>
+    <header className='header-desktop' style={{ padding:"0rem"}}>
       <CssBaseline />
       <AppBar 
         position="fixed" 
         sx={{ 
           backgroundColor: "#e8621d",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          padding:"0rem"
         }}
       >
         <Toolbar
@@ -111,8 +112,8 @@ export const HeaderDesk = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: "0.5rem 1rem",
-            minHeight: { xs: "56px", sm: "94px" }
+            padding: "0rem 1rem",
+            minHeight: { xs: "56px", sm: "94px" }, 
           }}
         >
           {isMobile && (
@@ -137,7 +138,7 @@ export const HeaderDesk = () => {
             <Image
               src="/Logo/LogoMega1.png"
               alt="Logo MegaOfertas"
-              width={73}
+              width={84}
               height={55}
               onClick={() => router.push("/")}
             />
