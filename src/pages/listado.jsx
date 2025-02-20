@@ -9,13 +9,17 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
+  IconButton,
+  Tooltip
 } from "@mui/material";
 import anime from "animejs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SwitchDisponibility from "@/components/buttons/SwitchDisponibility";
+import { useRouter } from 'next/router';
+
 const Listado = () => {
+  const router = useRouter();
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -70,9 +74,13 @@ const Listado = () => {
     }
   };
 
-  // Función para editar un producto (por ahora solo imprime el ID)
+  // Función para editar un producto
   const handleEditar = (id) => {
-    console.log(`Editar producto con ID: ${id}`);
+    console.log('Editando producto con ID:', id);
+    router.push({
+      pathname: '/actualizar-producto',
+      query: { id }
+    });
   };
 
   return (
@@ -100,21 +108,39 @@ const Listado = () => {
                     handleSwitchChange(producto.id, e.target.checked)
                     }/></TableCell>
               <TableCell>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleEditar(producto.id)}
-                  style={{ marginRight: 5 }}
-                >
-                  <ModeEditIcon />
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleEliminar(producto.id)}
-                >
-                  <DeleteIcon />
-                </Button>
+                <Tooltip title="Editar producto">
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleEditar(producto.id)}
+                    size="small"
+                    sx={{
+                      mr: 1,
+                      backgroundColor: 'primary.main',
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: 'primary.dark',
+                      }
+                    }}
+                  >
+                    <ModeEditIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Eliminar producto">
+                  <IconButton
+                    color="error"
+                    onClick={() => handleEliminar(producto.id)}
+                    size="small"
+                    sx={{
+                      backgroundColor: 'error.main',
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: 'error.dark',
+                      }
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
               </TableCell>
             </TableRow>
           ))}

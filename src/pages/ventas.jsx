@@ -41,7 +41,7 @@ const Row = ({ row, isMobile }) => {
 
   if (isMobile) {
     return (
-      <Card sx={{ mb: 2, backgroundColor: 'background.paper' }}>
+      <Card sx={{ mb: 2, backgroundColor: 'background.paper', borderRadius:4}}>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
             <Typography variant="subtitle1" component="div">

@@ -10,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 
 const PRODUCTS_PER_PAGE = {
   mobile: 6,
-  desktop: 5
+  desktop: 6
 };
 
 export default function Home() {
@@ -167,18 +167,25 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         flex: 1,
-        padding: "1rem",
+        padding: "0rem",
         gap: "2rem"
       }}>
         <Grid2 sx={{
           width: { md: "90%", xs: "100%" },
-          display: "flex",
-          justifyContent: "space-around",
           margin: "0 auto",
-          padding: { xs: "0", md: ".5rem" },
-          borderRadius: "10px",
-          flexWrap: "wrap",
-          gap: "1.5rem"
+          padding: { xs: "1rem", md: "2rem" },
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(2, 1fr)", 
+            md: "repeat(3, 1fr)"  
+          },
+          gridTemplateRows: {
+            xs: "repeat(3, auto)", 
+            md: "repeat(2, auto)"  
+          },
+          gap: { xs: "1rem", md: "2rem" },
+          justifyItems: "center",
+          alignItems: "start"
         }}>
           {currentProducts
           .filter(producto => producto.disponible)
@@ -186,6 +193,9 @@ export default function Home() {
             <Box
               key={producto.id}
               sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
                 transform: "scale(1)",
                 transition: "transform 0.3s ease",
                 "&:hover": {
@@ -198,33 +208,51 @@ export default function Home() {
           ))}
         </Grid2>
 
-        <Grid2 sx={{
+        <Box sx={{
           display: "flex",
+          alignItems: "center",
           justifyContent: "center",
           gap: "0.5rem",
           marginTop: "auto",
-          paddingBottom: "2rem"
+          paddingBottom: "2rem",
+          marginBottom: "3rem",
+          position: "relative",
+          width: "100%",
+          '&::before': {
+            content: '""',
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "60%",
+            height: "2px",
+            background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent)",
+            bottom: "3.5rem"
+          }
         }}>
           {[...Array(totalPages)].map((_, index) => (
             <IconButton
               key={index}
-              onClick={() => handlePageChange(index + 1)}
+              onClick={() => setCurrentPage(index + 1)}
               sx={{
-                backgroundColor: currentPage === index + 1 ? "#e8621d" : "#ff9800",
-                width: currentPage === index + 1 ? "3rem" : "2.5rem",
-                height: currentPage === index + 1 ? "3rem" : "2.5rem",
-                color: "white",
+                width: "40px",
+                height: "40px",
+                backgroundColor: currentPage === index + 1 ? "primary.main" : "transparent",
+                border: currentPage === index + 1 ? "none" : "1px solid rgba(0,0,0,0.2)",
+                color: currentPage === index + 1 ? "white" : "text.primary",
                 transition: "all 0.3s ease",
-                "&:hover": {
-                  backgroundColor: "#e65100",
+                '&:hover': {
+                  backgroundColor: currentPage === index + 1 ? "primary.dark" : "rgba(0,0,0,0.05)",
                   transform: "scale(1.1)"
+                },
+                '&:active': {
+                  transform: "scale(0.95)"
                 }
               }}
             >
               {index + 1}
             </IconButton>
           ))}
-        </Grid2>
+        </Box>
       </Grid2>
 
       {!isMobile && (

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../../styles/slideStyles.css";
-import { EffectFade, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { useRouter } from "next/router";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Paper } from "@mui/material";
 import API from "@/utils/api";
+
 const Slider = () => {
   const [products, setProducts] = useState([]);
   const router = useRouter();
@@ -38,16 +38,24 @@ const Slider = () => {
   }, []);
 
   return (
-    <>
+    <Paper elevation={2} sx={{ borderRadius: "25px", overflow: "hidden" }}>
       <Swiper
-        autoplay={true}
-        spaceBetween={30}
-        effect={"fade"}
-        navigation={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        speed={800}
+        slidesPerView={1}
+        loop={true}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }}
         pagination={{
           clickable: true,
+          dynamicBullets: true,
         }}
-        modules={[EffectFade, Navigation, Pagination]}
+        modules={[Autoplay, Navigation, Pagination]}
         className="mySwiper"
       >
         {products
@@ -57,100 +65,114 @@ const Slider = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-around",
-                  alignItems: "center",
+                  justifyContent: "space-between",
+                  alignItems: "stretch",
                   backgroundColor: "rgb(255, 240, 234)",
-                  height: "100%",
-                  borderRadius: "0px 0px 25px 25px",
+                  height: { xs: "400px", md: "500px" },
+                  position: "relative",
+                  overflow: "hidden",
+                  marginTop:"2rem"
                 }}
               >
+                {/* Contenido del producto */}
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     flexDirection: "column",
-                    padding: "2rem",
-                    width: "47%",
-                    height: "90%",
+                    padding: { xs: "1.5rem", md: "3rem" },
+                    width: "50%",
+                    zIndex: 1,
+                    background: "linear-gradient(to right, rgb(255, 240, 234) 60%, transparent)",
                   }}
                 >
                   <Typography
-                    variant="body1"
+                    variant="subtitle1"
                     fontWeight="bold"
-                    sx={{ color: "gray" }}
+                    sx={{ 
+                      color: "gray",
+                      mb: 1,
+                      fontSize: { xs: "0.9rem", md: "1.1rem" }
+                    }}
                   >
                     {product.brand}
                   </Typography>
-                  <Typography variant="h5" color="textSecondary">
+                  <Typography 
+                    variant="h4" 
+                    sx={{
+                      color: "text.primary",
+                      mb: 2,
+                      fontSize: { xs: "1.5rem", md: "2.5rem" },
+                      fontWeight: "bold"
+                    }}
+                  >
                     {product.name}
                   </Typography>
-                  <Typography variant="body3" color="textSecondary">
-                    {truncateText(product.descripcion, 60)}
+                  <Typography 
+                    variant="body1" 
+                    sx={{
+                      color: "text.secondary",
+                      mb: 3,
+                      fontSize: { xs: "0.9rem", md: "1rem" }
+                    }}
+                  >
+                    {truncateText(product.descripcion, 120)}
                   </Typography>
-                  <Typography variant="h5" color="primary" mt="0.5rem">
+                  <Typography 
+                    variant="h4" 
+                    sx={{
+                      color: "primary.main",
+                      mb: 3,
+                      fontSize: { xs: "1.8rem", md: "2.2rem" },
+                      fontWeight: "bold"
+                    }}
+                  >
                     ${product.price}
                   </Typography>
 
-                  <Box
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleViewDetails(product.id)}
                     sx={{
-                      display: "flex",
-                      justifyContent: "flex-start",
+                      borderRadius: "25px",
+                      padding: "10px 30px",
+                      alignSelf: "flex-start",
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      fontWeight: "bold",
+                      boxShadow: 3,
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                        transition: 'transform 0.2s'
+                      }
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleViewDetails(product.id)}
-                      sx={{ borderRadius: "20px" }}
-                    >
-                      <Typography
-                        sx={{
-                          color: "white",
-                          textAlign: "center",
-                          textTransform: "lowercase",
-                        }}
-                      >
-                        Ver más
-                      </Typography>
-                    </Button>
-                  </Box>
+                    Ver más
+                  </Button>
                 </Box>
 
+                {/* Imagen del producto */}
                 <Box
                   sx={{
-                    backgroundImage:
-                      product.imagenes && product.imagenes.length > 0
-                        ? `url(${product.imagenes[0]})`
-                        : `url('/default-image-url.jpg')`,
+                    position: "absolute",
+                    right: 0,
+                    top: 0,
+                    width: "65%",
+                    height: "100%",
+                    backgroundImage: product.imagenes?.length > 0
+                      ? `url(${product.imagenes[0]})`
+                      : `url('/default-image-url.jpg')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
-                    width: "100%", // Ajusta según sea necesario
-                    height: "100%",
-                    borderRadius: "0 0 25px 0",
                   }}
-                >
-                  {/* <img
-                    src={
-                      product.imagenes && product.imagenes.length > 0
-                        ? product.imagenes[0]
-                        : 'default-image-url.jpg'
-                    }
-                    alt={product.name}
-                    style={{
-                      width:"100%",
-                      maxWidth: '100%',
-                      maxHeight: '100%',
-                      objectFit: 'contain',
-                      borderRadius: '30px',
-                    }}
-                  />  */}
-                </Box>
+                />
               </Box>
             </SwiperSlide>
           ))}
       </Swiper>
-    </>
+    </Paper>
   );
 };
 

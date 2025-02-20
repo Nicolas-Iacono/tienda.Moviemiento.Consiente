@@ -64,19 +64,23 @@ const ProductLikeButton = ({ productId }) => {
     <IconButton
       onClick={handleLikeToggle}
       sx={{
-        backgroundColor: hasLiked ? 'red' : 'transparent',
-        border: hasLiked ? "none" : "2px solid orange",
+        backgroundColor: 'white',
         '&:hover': {
-          backgroundColor: 'red'
-        }
+          backgroundColor: 'white'
+        },
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        padding: '8px'
       }}
     >
       <Image
-        src={hasLiked ? "/iconos/corazonBlanco.png" : "/iconos/corazonNaranja.png"}
+        src={hasLiked ? "/iconos/corazonRojo.png" : "/iconos/corazonTransparente.png"}
         alt={hasLiked ? "Me gusta" : "No me gusta"}
-        width={24}
-        height={24}
-        style={{ objectFit: 'contain' }}
+        width={20}
+        height={20}
+        style={{ 
+          objectFit: 'contain',
+          filter: hasLiked ? 'none' : 'opacity(0.5)'
+        }}
       />
     </IconButton>
   );
