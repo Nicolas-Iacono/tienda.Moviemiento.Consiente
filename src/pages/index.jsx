@@ -218,16 +218,7 @@ export default function Home() {
           marginBottom: "3rem",
           position: "relative",
           width: "100%",
-          '&::before': {
-            content: '""',
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "60%",
-            height: "2px",
-            background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent)",
-            bottom: "3.5rem"
-          }
+         
         }}>
           {[...Array(totalPages)].map((_, index) => (
             <IconButton

@@ -56,14 +56,14 @@ const ProductCard = ({ producto }) => {
       onClick={handleCardClick}
       sx={{
         width: {
-          xs: '150px',
-          sm: '160px',
+          xs: '160px',
+          sm: '180px',
           md: '350px'
         },
         display: "flex",
         flexDirection: "column",
         height: {
-          xs: '250px',
+          xs: '255px',
           sm: '300px',
           md: '420px'
         },
@@ -106,8 +106,8 @@ const ProductCard = ({ producto }) => {
         <Box
           sx={{
             position: 'absolute',
-            top: 7,
-            right: 7,
+            top: {xs:1,md:7},
+            right: {xs:1,md:7},
             padding: '1rem',
           }}
         >
@@ -152,7 +152,7 @@ const ProductCard = ({ producto }) => {
           variant="body2" 
           color="text.secondary"
           sx={{
-            fontSize: { xs: '0.87rem', sm: '0.875rem', md: '1rem' },
+            fontSize: { xs: '1.1rem', sm: '1rem', md: '1.3rem' },
             fontWeight: 'bold',
             textAlign: 'left'
           }}
