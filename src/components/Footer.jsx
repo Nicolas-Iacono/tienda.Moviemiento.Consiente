@@ -1,4 +1,3 @@
-
 import { Grid2, Typography } from '@mui/material'
 import React from 'react'
 import Image from 'next/image';
@@ -6,7 +5,7 @@ import Image from 'next/image';
 export const Footer = () => {
   return (
     <Grid2      sx={{
-        backgroundColor: "#E8621D",
+        backgroundColor: "#C3DE5A",
         color: "#fff",
         textAlign: "center",
         padding: 1,
@@ -20,7 +19,7 @@ export const Footer = () => {
       }}
 >
             <Image
-              src="/Logo/LogoMega1.png"
+              src="/Logo/logo-mc.webp"
               alt="Logo"
               width={200}    // valor en píxeles (ejemplo)
               height={100} 
@@ -29,4 +28,3 @@ export const Footer = () => {
       </Grid2>
   )
 }
-

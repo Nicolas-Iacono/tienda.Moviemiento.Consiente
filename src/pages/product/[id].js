@@ -90,7 +90,7 @@ const ProductDetails = () => {
       </Container>
     );
   }
-
+  console.log("isInCart:", isInCart);
   return (
     <>
       {mobile ? (
@@ -101,10 +101,10 @@ const ProductDetails = () => {
           <Box sx={{ display: "flex", gap: 4, flexDirection: { xs: "column", md: "row" }, justifyContent: "start", alignItems: "center", height: { md: "33rem" } }}>
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: "5rem", width: "100%" }}>
               <Box sx={{ display: "flex", flexDirection: "column", width: "90%", alignItems: "start", height: "100%", justifyContent: "space-around" }}>
-                <Typography variant="subtitle1" color="gray" sx={{ fontWeight: 700 }}>
+                <Typography variant="subtitle1" sx={{color:"#ADADAD", fontWeight: 700 }}>
                   {product.marca}
                 </Typography>
-                <Typography variant="h5" gutterBottom sx={{ width: "100%", color: "rgb(69, 69, 69)" }}>
+                <Typography variant="h5" gutterBottom sx={{ width: "100%", color: "white" }}>
                   {product.nombre}
                 </Typography>
               </Box>
@@ -132,12 +132,13 @@ const ProductDetails = () => {
                 />
               </Box>
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "column", backgroundColor: "white", height: "85%", padding: "1rem", justifyContent: "space-between", width: { md: "50%", xs: "100%" }, marginBottom: "5rem" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", backgroundColor: "#18181F", height: "85%", padding: "1rem", justifyContent: "space-between", width: { md: "50%", xs: "100%" }, marginBottom: "5rem" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography variant="body1" gutterBottom sx={{ fontWeight: "400", color: "gray" }}>
+                <Typography variant="body1" gutterBottom sx={{ fontWeight: "400", color: "#B3B3B3" }}>
                   {product.descripcion}
                 </Typography>
               </Box>
+              <Box  sx={{ display: "flex", flexDirection: "column", height:"10rem", justifyContent: "space-between", alignItems: "start" }}>
               <Box
                 sx={{
                   width: "100%",
@@ -151,38 +152,40 @@ const ProductDetails = () => {
               >
                 <Box
                   sx={{
-                    backgroundImage: `url('/mediosPagos/visa.webp')`,
+                    backgroundImage: `url('/mediosPagos/visa.webp'),linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)`,
                     width: "3rem",
                     height: "80%",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                     border: ".1px solid gray",
-                    borderRadius: 2
+                    borderRadius: 2,
+                    backgroundColor:"white"
                   }}
                 ></Box>
                 <Box
                   sx={{
-                    backgroundImage: `url('/mediosPagos/master.webp')`,
+                    backgroundImage: `url('/mediosPagos/master.webp'),linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)`,
                     width: "3rem",
                     height: "80%",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                     border: ".1px solid gray",
-                    borderRadius: 2
+                    borderRadius: 2,
+                    backgroundColor:"white"
                   }}
                 ></Box>
                 <Box
                   sx={{
-                    backgroundImage: `url('/mediosPagos/mercadoPago.webp')`,
+                    backgroundImage: `url('/mediosPagos/mercadoPago.webp'),linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)`,
                     width: "3rem",
                     height: "80%",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                     border: ".1px solid gray",
-                    borderRadius: 2
+                    borderRadius: 2,
                   }}
                 ></Box>
               </Box>
@@ -191,26 +194,33 @@ const ProductDetails = () => {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  alignItems: "start"
+                  alignItems: "start",
+                  
                 }}
               >
-                <Typography variant="h4" sx={{ textDecoration: product.descuento ? "line-through" : "none" }}>
-                  <span style={{ color: "orange" }}>$</span>{product.precioLista}
+                <Typography variant="h4" sx={{ textDecoration: product.descuento ? "line-through" : "none",color:"white" }}>
+                  <span style={{ color: "#c3de5a" }}>$</span>{product.precioLista}
                 </Typography>
+                </Box>
                 <Button
               onClick={() => handleAddToCart(product)}
               variant="contained"
               startIcon={<AddShoppingCartIcon />}
               disabled={isInCart}
               sx={{
-                backgroundColor: isInCart ? "grey.400" : "orange",
+                backgroundColor: isInCart ? "#ADADAD" : "#c3de5a",
+                color: isInCart ? "black" : "black",
                 "&:hover": {
-                  backgroundColor: isInCart ? "grey.400" : "darkorange"
+                  backgroundColor: isInCart ? "#ADADAD" : "#96AA44",
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: "#ADADAD", // Color cuando está deshabilitado
+                  color: "black", // Color del texto cuando está deshabilitado
                 },
                 height: "2.5rem",
                 borderRadius: 3,
                 textTransform: "none",
-                px: 3
+                px: 3,
               }}
             >
               {isInCart ? "En el carrito" : "Agregar al carrito"}

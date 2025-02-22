@@ -84,7 +84,7 @@ const MobileMenu = ({ open, onClose }) => {
         sx: {
           width: '70%',
           maxWidth: '300px',
-          bgcolor: 'background.paper',
+          bgcolor: '#18181F',
           borderTopLeftRadius: 20,
           borderBottomLeftRadius: 20,
         },
@@ -95,7 +95,7 @@ const MobileMenu = ({ open, onClose }) => {
     >
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <IconButton onClick={onClose} size="large">
+          <IconButton onClick={onClose} size="large" sx={{ color: 'white' }}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -112,10 +112,10 @@ const MobileMenu = ({ open, onClose }) => {
             >
               {user.first_name?.[0]?.toUpperCase() || <PersonIcon />}
             </Avatar>
-            <Typography variant="h6" sx={{ mt: 1 }}>
+            <Typography variant="h6" sx={{ mt: 1, color: 'white' }}>
               {user.first_name} {user.last_name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: 'white' }}>
               {user.email}
             </Typography>
           </Box>
@@ -131,7 +131,7 @@ const MobileMenu = ({ open, onClose }) => {
             >
               <PersonIcon />
             </Avatar>
-            <Typography variant="h6" sx={{ mt: 1 }}>
+            <Typography variant="h6" sx={{ mt: 1, color: 'white' }}>
               Invitado
             </Typography>
             <Button
@@ -151,14 +151,14 @@ const MobileMenu = ({ open, onClose }) => {
         <List>
           {user && logued && (
             <>
-              <ListItem button onClick={handleProfile}>
-                <ListItemIcon>
+              <ListItem button onClick={handleProfile} sx={{ color: 'white' }}>
+                <ListItemIcon sx={{ color: 'white' }}>
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Mi Perfil" />
               </ListItem>
-              <ListItem button onClick={handleCart}>
-                <ListItemIcon>
+              <ListItem button onClick={handleCart} sx={{ color: 'white' }}>
+                <ListItemIcon sx={{ color: 'white' }}>
                   <ShoppingCartIcon />
                 </ListItemIcon>
                 <ListItemText primary="Carrito" />
@@ -168,8 +168,8 @@ const MobileMenu = ({ open, onClose }) => {
           )}
 
           {isAdmin && (
-            <ListItem button onClick={handleCategory}>
-              <ListItemIcon>
+            <ListItem button onClick={handleCategory} sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <CategoryIcon />
               </ListItemIcon>
               <ListItemText primary="Categorias" />
@@ -177,8 +177,8 @@ const MobileMenu = ({ open, onClose }) => {
           )}
 
           {logued && (
-            <ListItem button onClick={handleLogout}>
-              <ListItemIcon>
+            <ListItem button onClick={handleLogout} sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText primary="Cerrar Sesión" />
@@ -186,8 +186,8 @@ const MobileMenu = ({ open, onClose }) => {
           )}
 
           {!logued && (
-            <ListItem button onClick={handleLogin}>
-              <ListItemIcon>
+            <ListItem button onClick={handleLogin} sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <LoginIcon />
               </ListItemIcon>
               <ListItemText primary="Iniciar Sesión" />

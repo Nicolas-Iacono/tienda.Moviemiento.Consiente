@@ -129,7 +129,7 @@ const UserForm = ({ onRegisterSuccess }) => {
     <Grid2>
           <Grid2 sx={{height:"11rem", margin:"0 auto", display:"flex", justifyContent:"center", alignItems:"center"}}>
                 <Image
-                    src="/Logo/LogoMega1.png"
+                    src="/Logo/logo-mc.webp"
                     alt="Logo"
                     width={350}
                     height={200}

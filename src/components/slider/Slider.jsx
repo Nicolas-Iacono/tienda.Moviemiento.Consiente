@@ -48,8 +48,8 @@ const Slider = () => {
         slidesPerView={1}
         loop={true}
         navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         }}
         pagination={{
           clickable: true,
@@ -71,7 +71,7 @@ const Slider = () => {
                   height: { xs: "400px", md: "500px" },
                   position: "relative",
                   overflow: "hidden",
-                  marginTop:"2rem"
+                  marginTop: "2rem",
                 }}
               >
                 {/* Contenido del producto */}
@@ -83,48 +83,49 @@ const Slider = () => {
                     padding: { xs: "1.5rem", md: "3rem" },
                     width: "50%",
                     zIndex: 1,
-                    background: "linear-gradient(to right, rgb(255, 240, 234) 60%, transparent)",
+                    background:
+                      "linear-gradient(to right, rgb(255, 208, 244) 60%, transparent)",
                   }}
                 >
                   <Typography
                     variant="subtitle1"
                     fontWeight="bold"
-                    sx={{ 
+                    sx={{
                       color: "gray",
                       mb: 1,
-                      fontSize: { xs: "0.9rem", md: "1.1rem" }
+                      fontSize: { xs: "0.9rem", md: "1.1rem" },
                     }}
                   >
                     {product.brand}
                   </Typography>
-                  <Typography 
-                    variant="h4" 
+                  <Typography
+                    variant="h4"
                     sx={{
                       color: "text.primary",
                       mb: 2,
                       fontSize: { xs: "1.5rem", md: "2.5rem" },
-                      fontWeight: "bold"
+                      fontWeight: "bold",
                     }}
                   >
                     {product.name}
                   </Typography>
-                  <Typography 
-                    variant="body1" 
+                  <Typography
+                    variant="body1"
                     sx={{
                       color: "text.secondary",
                       mb: 3,
-                      fontSize: { xs: "0.9rem", md: "1rem" }
+                      fontSize: { xs: "0.9rem", md: "1rem" },
                     }}
                   >
                     {truncateText(product.descripcion, 120)}
                   </Typography>
-                  <Typography 
-                    variant="h4" 
+                  <Typography
+                    variant="h4"
                     sx={{
                       color: "primary.main",
                       mb: 3,
                       fontSize: { xs: "1.8rem", md: "2.2rem" },
-                      fontWeight: "bold"
+                      fontWeight: "bold",
                     }}
                   >
                     ${product.price}
@@ -142,10 +143,10 @@ const Slider = () => {
                       fontSize: "1.1rem",
                       fontWeight: "bold",
                       boxShadow: 3,
-                      '&:hover': {
-                        transform: 'scale(1.05)',
-                        transition: 'transform 0.2s'
-                      }
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                        transition: "transform 0.2s",
+                      },
                     }}
                   >
                     Ver más
@@ -160,9 +161,10 @@ const Slider = () => {
                     top: 0,
                     width: "65%",
                     height: "100%",
-                    backgroundImage: product.imagenes?.length > 0
-                      ? `url(${product.imagenes[0]})`
-                      : `url('/default-image-url.jpg')`,
+                    backgroundImage:
+                      product.imagenes?.length > 0
+                        ? `url(${product.imagenes[0]})`
+                        : `url('/default-image-url.jpg')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",

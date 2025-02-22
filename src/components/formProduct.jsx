@@ -6,7 +6,6 @@ import {
   Button,
   Box,
   Typography,
-  TextareaAutosize,
   IconButton,
   CardMedia,
 } from "@mui/material";
@@ -48,6 +47,49 @@ const validationSchema = Yup.object({
     .min(1, "El peso minimo permitido es de 1 gramo")
     .max(25000, "El peso maximo permitido es de 25.000 gramos"),
 });
+
+const textFieldStyles = {
+  backgroundColor: "#24242F",
+  "& .MuiInputBase-input": {
+    color: "white",
+  },
+  "& .MuiInputLabel-root": {
+    color: "white",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#333340",
+    },
+    "&:hover fieldset": {
+      borderColor: "#363645",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#363645",
+    },
+  },
+  "& .MuiFormHelperText-root": {
+    color: "#363645",
+  },
+};
+
+const textareaStyles = {
+  width: "100%",
+  borderRadius: "4px",
+  padding: "10px",
+  backgroundColor: "#24242F",
+  color: "white",
+  border: "1px solid #333340",
+  fontFamily: "inherit",
+  fontSize: "1rem",
+  "&:hover": {
+    borderColor: "#363645",
+  },
+  "&:focus": {
+    outline: "none",
+    borderColor: "#363645",
+    borderWidth: "1px",
+  },
+};
 
 const ProductoForm = () => {
   const [view, setView] = useState(false);
@@ -100,18 +142,14 @@ const ProductoForm = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
-        width: "100%",
-        padding: 2,
-        height: "90%",
-        justifyContent: "flex-start", // El formulario crece hacia abajo
-        position: "relative",
-        marginTop: formik.values.imagenes.length > 0 ? "2rem" : "0", // Solo agrega espacio extra cuando hay imágenes
-        transition: "margin-top 0.3s ease", // Transición suave
-        marginBottom: { xs: "4rem", md: "0px" },
+        alignItems: "center",
+        padding: { xs: "1rem", md: "2rem" },
+        minHeight: "100vh",
+        height: "auto",
+        overflowY: "auto",
       }}
     >
-      <Typography variant="h4" sx={{ color: "black" }}>
+      <Typography variant="h4" sx={{ color: "#67677D", fontWeight: "500" }}>
         Crear Producto
       </Typography>
       <Box
@@ -136,6 +174,7 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.nombre && Boolean(formik.errors.nombre)}
                 helperText={formik.touched.nombre && formik.errors.nombre}
+                sx={textFieldStyles}
               />
               <TextField
                 label="Marca"
@@ -144,28 +183,36 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.marca && Boolean(formik.errors.marca)}
                 helperText={formik.touched.marca && formik.errors.marca}
+                sx={textFieldStyles}
               />
             </Box>
-            <Box sx={{
+            <Box
+              sx={{
                 display: "flex",
                 gap: 2,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                padding:"0rem 1.5rem"
-                }}>
-              <Typography variant="h5" color="black"> 
+                padding: "0rem 1.5rem",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{ color: "#67677D", fontWeight: "500" }}
+              >
                 Stock / PrecioLista / PrecioVenta
               </Typography>
             </Box>
-            <Box sx={{
+            <Box
+              sx={{
                 display: "flex",
                 gap: 2,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                padding:"1rem"
-                }}>
+                padding: "1rem",
+              }}
+            >
               <TextField
                 type="number"
                 label="Stock"
@@ -174,6 +221,7 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.stock && Boolean(formik.errors.stock)}
                 helperText={formik.touched.stock && formik.errors.stock}
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -188,6 +236,7 @@ const ProductoForm = () => {
                 helperText={
                   formik.touched.precioLista && formik.errors.precioLista
                 }
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -202,18 +251,21 @@ const ProductoForm = () => {
                 helperText={
                   formik.touched.precioVenta && formik.errors.precioVenta
                 }
+                sx={textFieldStyles}
               />
             </Box>
 
-            <Box sx={{
+            <Box
+              sx={{
                 display: "flex",
                 gap: 2,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                padding:"0rem 1.5rem"
-                }}>
-              <Typography variant="h5" color="black"> 
+                padding: "0rem 1.5rem",
+              }}
+            >
+              <Typography variant="h5" sx={{ color: "#67677D" }}>
                 Dimensiones
               </Typography>
             </Box>
@@ -224,7 +276,7 @@ const ProductoForm = () => {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                padding:"1rem"
+                padding: "1rem",
               }}
             >
               <TextField
@@ -235,6 +287,7 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.alto && Boolean(formik.errors.alto)}
                 helperText={formik.touched.alto && formik.errors.alto}
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -244,6 +297,7 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.ancho && Boolean(formik.errors.ancho)}
                 helperText={formik.touched.ancho && formik.errors.ancho}
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -253,6 +307,7 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.largo && Boolean(formik.errors.largo)}
                 helperText={formik.touched.largo && formik.errors.largo}
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -262,6 +317,7 @@ const ProductoForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.peso && Boolean(formik.errors.peso)}
                 helperText={formik.touched.peso && formik.errors.peso}
+                sx={textFieldStyles}
               />
             </Box>
           </Box>
@@ -284,21 +340,25 @@ const ProductoForm = () => {
                 width: { xs: "100%", md: "60%" },
               }}
             >
-              <Typography variant="h6" sx={{ color: "black" }}>
+              <Typography variant="h6" sx={{ color: "#67677D" }}>
                 Agregar descripcion
               </Typography>
-              <TextareaAutosize
+              <TextField
+                multiline
                 minRows={4}
                 placeholder="Descripción del Producto"
                 name="descripcion"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
-                style={{
-                  width: "100%",
-                  borderRadius: "11px",
-                  padding: "10px",
-                  height: "auto",
-                }}
+                error={
+                  formik.touched.descripcion &&
+                  Boolean(formik.errors.descripcion)
+                }
+                helperText={
+                  formik.touched.descripcion && formik.errors.descripcion
+                }
+                sx={textFieldStyles}
+                fullWidth
               />
             </Box>
             <Box
@@ -312,7 +372,7 @@ const ProductoForm = () => {
             ></Box>
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ color: "black" }}>
+            <Typography variant="h6" sx={{ color: "#67677D" }}>
               Seleccionar Categoría
             </Typography>
             <SelectAPI onSelect={handleCategorySelect} />
@@ -321,7 +381,7 @@ const ProductoForm = () => {
             )}
           </Box>
           <Box>
-            <Typography variant="h6" sx={{ color: "black" }}>
+            <Typography variant="h6" sx={{ color: "#67677D" }}>
               Agregar imágenes de producto
             </Typography>
             <ImageUploader
@@ -345,6 +405,7 @@ const ProductoForm = () => {
             sx={{
               width: "100%",
               display: "flex",
+              height: "8rem",
               justifyContent: { xs: "center", md: "end" },
               alignItems: "center",
             }}

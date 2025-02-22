@@ -43,7 +43,7 @@ export default function LoginPage() {
         <Grid2
             container
             sx={{
-                backgroundColor: "#e8621d",
+                backgroundColor: "black",
                 position: "fixed",
                 height: "calc(var(--vh, 1vh) * 100)",
                 top: 0,

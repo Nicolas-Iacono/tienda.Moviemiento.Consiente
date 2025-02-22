@@ -97,6 +97,7 @@ const FixedBottomNavigation = () => {
           sx={{
             borderRadius: "15px 15px 0 0",
             overflow: "hidden",
+            backgroundColor: "black",
           }}
         >
           {isAdmin() ? (
@@ -106,8 +107,12 @@ const FixedBottomNavigation = () => {
               onChange={(event, newValue) => setValue(newValue)}
               sx={{
                 height: "60px",
+                backgroundColor: "black",
+                "& .MuiBottomNavigationAction-root": {
+                  color: "white",
+                },
                 "& .Mui-selected": {
-                  color: "#e8621d",
+                  color: "#C3DE5A",
                 },
               }}
             >
@@ -140,8 +145,12 @@ const FixedBottomNavigation = () => {
               onChange={(event, newValue) => setValue(newValue)}
               sx={{
                 height: "60px",
+                backgroundColor: "black",
+                "& .MuiBottomNavigationAction-root": {
+                  color: "white",
+                },
                 "& .Mui-selected": {
-                  color: "#e8621d",
+                  color: "#C3DE5A",
                 },
               }}
             >

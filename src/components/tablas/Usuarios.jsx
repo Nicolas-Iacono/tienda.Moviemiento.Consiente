@@ -43,7 +43,7 @@ const ExpandableRow = ({ person }) => {
                     flexDirection: "column",
                     justifyContentL: "center",
                     alignItems: "center",
-                    backgroundColor: "#e8621d",
+                    backgroundColor: "#C3DE5A",
                   }}
                 >
                   <TableCell sx={{ color: "white" }}>
@@ -67,7 +67,7 @@ const ExpandableRow = ({ person }) => {
                     flexDirection: "column",
                     justifyContentL: "center",
                     alignItems: "center",
-                    backgroundColor: "#e8621d",
+                    backgroundColor: "#C3DE5A",
                   }}
                 >
                   <TableCell
@@ -90,7 +90,7 @@ const ExpandableRow = ({ person }) => {
                     flexDirection: "column",
                     justifyContentL: "center",
                     alignItems: "center",
-                    backgroundColor: "#e8621d",
+                    backgroundColor: "#C3DE5A",
                     color: "white",
                   }}
                 >

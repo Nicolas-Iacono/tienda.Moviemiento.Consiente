@@ -83,9 +83,21 @@ const MobileCart = ({ isOpen, onClose }) => {
             dragConstraints={{ top: 0, bottom: 0 }}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
+            initial={{ y: '100%', backgroundColor: 'black' }}
+            animate={{ 
+              y: 0,
+              backgroundColor: '#18181F',
+              transition: {
+                backgroundColor: { duration: 0.3 }
+              }
+            }}
+            exit={{ 
+              y: '100%',
+              backgroundColor: 'black',
+              transition: {
+                backgroundColor: { duration: 0.3 }
+              }
+            }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             style={{
               position: 'fixed',
@@ -94,6 +106,8 @@ const MobileCart = ({ isOpen, onClose }) => {
               right: 0,
               zIndex: 1001,
               touchAction: 'none',
+              borderTopLeftRadius: '16px',
+              borderTopRightRadius: '16px',
             }}
           >
             <Paper
@@ -104,6 +118,7 @@ const MobileCart = ({ isOpen, onClose }) => {
                 maxHeight: '80vh',
                 display: 'flex',
                 flexDirection: 'column',
+                background: 'transparent',
               }}
             >
               {/* Barra superior con título y botón de cerrar */}
@@ -113,11 +128,11 @@ const MobileCart = ({ isOpen, onClose }) => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  borderBottom: '1px solid rgba(0,0,0,0.12)',
+                  borderBottom: '1px solid #363645',
                 }}
               >
-                <Typography variant="h6">Carrito de Compras</Typography>
-                <IconButton onClick={onClose} size="small">
+                <Typography variant="h6" sx={{ color: 'white' }}>Carrito de Compras</Typography>
+                <IconButton onClick={onClose} size="small" sx={{ color: 'white' }}>
                   <CloseIcon />
                 </IconButton>
               </Box>
@@ -126,19 +141,34 @@ const MobileCart = ({ isOpen, onClose }) => {
               <List sx={{ flexGrow: 1, overflowY: 'auto', pb: 0 }}>
                 {carrito.length === 0 ? (
                   <ListItem>
-                    <ListItemText primary="Tu carrito está vacío" />
+                    <ListItemText 
+                      primary="Tu carrito está vacío" 
+                      sx={{ 
+                        '& .MuiListItemText-primary': { 
+                          color: 'white' 
+                        } 
+                      }} 
+                    />
                   </ListItem>
                 ) : (
                   carrito.map((item) => (
-                    <ListItem key={item.id}>
+                    <ListItem key={item.id} sx={{ backgroundColor: '#18181F', mb: 1 }}>
                       <ListItemText
                         primary={item.nombre || item.name}
                         secondary={`$${Number(item.precioVenta || item.price).toLocaleString()}`}
+                        sx={{ 
+                          '& .MuiListItemText-primary': { 
+                            color: 'white' 
+                          },
+                          '& .MuiListItemText-secondary': { 
+                            color: '#C3DE5A' 
+                          } 
+                        }}
                       />
                         <IconButton
                           edge="end"
                           onClick={() => eliminarDelCarrito(item.id)}
-                          sx={{ color: 'error.main' }}
+                          sx={{ color: 'white' }}
                         >
                           <DeleteOutlineIcon />
                         </IconButton>
@@ -149,12 +179,20 @@ const MobileCart = ({ isOpen, onClose }) => {
 
               {/* Total y botón de pago */}
               {carrito.length > 0 && (
-                <Box sx={{ p: 2, borderTop: '1px solid rgba(0,0,0,0.12)' }}>
-                  <Typography variant="h6" gutterBottom>
+                <Box sx={{ p: 2, borderTop: '1px solid #363645' }}>
+                  <Typography variant="h6" gutterBottom sx={{ color: 'white' }}>
                     Total: ${total.toLocaleString()}
                   </Typography>
                   <Button 
-                  sx={{width:"100%", height:"2rem", backgroundColor:"orange", color:"white"}}
+                    sx={{
+                      width:"100%", 
+                      height:"2rem", 
+                      backgroundColor:"#C3DE5A", 
+                      color:"black",
+                      '&:hover': {
+                        backgroundColor: '#A1BC48'
+                      }
+                    }}
                     onClick={handleCart} 
                     products={carrito}
                     onSuccess={handlePaymentSuccess}

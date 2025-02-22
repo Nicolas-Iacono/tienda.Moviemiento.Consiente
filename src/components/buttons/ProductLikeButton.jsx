@@ -10,10 +10,12 @@ const ProductLikeButton = ({ productId }) => {
   const { user } = useMyUserContext();
   const { hasLiked, setHasLiked, loading, error } = useHasLiked(user?.id, productId);
   const router = useRouter();
-
+  console.log('hasLiked:', hasLiked);
+  console.log("productId:", productId);
+  console.log("userId:", user?.id);
   const handleLikeToggle = async (e) => {
     e.stopPropagation(); // Detener la propagación del evento
-    
+
     if (!user?.id) {
       Swal.fire({
         title: 'Inicio de sesión requerido',

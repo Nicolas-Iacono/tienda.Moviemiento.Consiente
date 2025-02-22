@@ -24,7 +24,7 @@ const HeaderMobile = () => {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0.5rem 1rem",
-        backgroundColor: "#e8621d",
+        backgroundColor: "black",
         position: "fixed",
         top: 0,
         left: 0,
@@ -43,7 +43,7 @@ const HeaderMobile = () => {
         }}
       >
         <Image
-          src="/Logo/LogoMega1.png"
+          src="/Logo/logo-mc.webp"
           alt="Logo"
           width={50}
           height={40}
@@ -53,7 +53,7 @@ const HeaderMobile = () => {
 
         <SearchBar />
 
-        <IconButton onClick={() => setMenuOpen(true)} sx={{ color: "white" }}>
+        <IconButton onClick={() => setMenuOpen(true)} sx={{ color: "#CED16E" }}>
           <MenuIcon />
         </IconButton>
       </Box>

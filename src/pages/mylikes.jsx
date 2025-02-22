@@ -155,7 +155,7 @@ const MyLikes = () => {
             sx={{
               padding: "1rem",
               backgroundColor:
-                currentPage === index + 1 ? "rgb(172, 72, 22)" : " #e8621d",
+                currentPage === index + 1 ? "rgb(172, 72, 22)" : " #C3DE5A",
               width: currentPage === index + 1 ? "3rem" : "2rem",
               height: currentPage === index + 1 ? "3rem" : "2rem",
               color: "white",

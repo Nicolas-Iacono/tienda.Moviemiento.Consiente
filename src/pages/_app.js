@@ -13,7 +13,7 @@ export default function MyApp({ Component, pageProps }) {
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#e8621d",
+        main: "#C3DE5A",
       },
     },
   });

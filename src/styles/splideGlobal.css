@@ -22,7 +22,7 @@
 
 /* Punto activo */
 .splide__pagination__page.is-active {
-  background-color: #e8621d;
+  background-color: #C3DE5A;
   transform: scale(1.2);
 }
 .splide {

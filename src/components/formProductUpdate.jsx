@@ -45,6 +45,49 @@ const validationSchema = Yup.object({
     .max(25000, "El peso maximo permitido es de 25.000 gramos"),
 });
 
+const textFieldStyles = {
+  backgroundColor: "#24242F",
+  "& .MuiInputBase-input": {
+    color: "white",
+  },
+  "& .MuiInputLabel-root": {
+    color: "white",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#333340",
+    },
+    "&:hover fieldset": {
+      borderColor: "#363645",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#363645",
+    },
+  },
+  "& .MuiFormHelperText-root": {
+    color: "#363645",
+  },
+};
+
+const textareaStyles = {
+  width: "100%",
+  borderRadius: "4px",
+  padding: "10px",
+  backgroundColor: "#24242F",
+  color: "white",
+  border: "1px solid #333340",
+  fontFamily: "inherit",
+  fontSize: "1rem",
+  "&:hover": {
+    borderColor: "#363645",
+  },
+  "&:focus": {
+    outline: "none",
+    borderColor: "#363645",
+    borderWidth: "1px",
+  },
+};
+
 const ProductoUpdateForm = ({ productId }) => {
   const [view, setView] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -180,18 +223,14 @@ const ProductoUpdateForm = ({ productId }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
-        width: "100%",
-        padding: 2,
-        height: "90%",
-        justifyContent: "flex-start",
-        position: "relative",
-        marginTop: formik.values?.imagenes?.length > 0 ? "2rem" : "0",
-        transition: "margin-top 0.3s ease",
-        marginBottom: { xs: "4rem", md: "0px" },
+        alignItems: "center",
+        padding: { xs: "1rem", md: "2rem" },
+        minHeight: "100vh",
+        height: "auto",
+        overflowY: "auto",
       }}
     >
-      <Typography variant="h4" sx={{ color: "black" }}>
+      <Typography variant="h4" sx={{ color: "#67677D", fontWeight: "500" }}>
         Actualizar Producto
       </Typography>
       <Box
@@ -199,13 +238,16 @@ const ProductoUpdateForm = ({ productId }) => {
           marginTop: formik.values?.imagenes?.length > 0 ? "1rem" : "0",
           transition: "margin-top 0.3s ease",
           width: "100%",
-          border: { xs: "none", md: "1px solid black" },
+          border: { xs: "none", md: "1px solid #333340" },
           borderRadius: "10px",
           padding: { xs: 0, md: 2 },
+          backgroundColor: "transparent",
         }}
       >
         <form onSubmit={formik.handleSubmit}>
-          <Box sx={{ display: "flex", flexDirection: { xs: "column" }, gap: 2 }}>
+          <Box
+            sx={{ display: "flex", flexDirection: { xs: "column" }, gap: 2 }}
+          >
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <TextField
                 label="Nombre"
@@ -214,6 +256,7 @@ const ProductoUpdateForm = ({ productId }) => {
                 onChange={formik.handleChange}
                 error={formik.touched.nombre && Boolean(formik.errors.nombre)}
                 helperText={formik.touched.nombre && formik.errors.nombre}
+                sx={textFieldStyles}
               />
               <TextField
                 label="Marca"
@@ -222,17 +265,23 @@ const ProductoUpdateForm = ({ productId }) => {
                 onChange={formik.handleChange}
                 error={formik.touched.marca && Boolean(formik.errors.marca)}
                 helperText={formik.touched.marca && formik.errors.marca}
+                sx={textFieldStyles}
               />
             </Box>
-            <Box sx={{
-              display: "flex",
-              gap: 2,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              padding: "0rem 1.5rem"
-            }}>
-              <Typography variant="h5" color="black">
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                padding: "0rem 1.5rem",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{ color: "#67677D", fontWeight: "500" }}
+              >
                 Stock / PrecioLista / PrecioVenta
               </Typography>
             </Box>
@@ -252,6 +301,7 @@ const ProductoUpdateForm = ({ productId }) => {
                 onChange={formik.handleChange}
                 error={formik.touched.stock && Boolean(formik.errors.stock)}
                 helperText={formik.touched.stock && formik.errors.stock}
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -261,6 +311,7 @@ const ProductoUpdateForm = ({ productId }) => {
                 onChange={formik.handleChange}
                 error={formik.touched.precioLista && Boolean(formik.errors.precioLista)}
                 helperText={formik.touched.precioLista && formik.errors.precioLista}
+                sx={textFieldStyles}
               />
               <TextField
                 type="number"
@@ -270,6 +321,7 @@ const ProductoUpdateForm = ({ productId }) => {
                 onChange={formik.handleChange}
                 error={formik.touched.precioVenta && Boolean(formik.errors.precioVenta)}
                 helperText={formik.touched.precioVenta && formik.errors.precioVenta}
+                sx={textFieldStyles}
               />
             </Box>
 
@@ -280,11 +332,7 @@ const ProductoUpdateForm = ({ productId }) => {
                 name="descripcion"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
-                style={{
-                  width: "100%",
-                  padding: "8px",
-                  marginBottom: formik.errors.descripcion ? "20px" : "0",
-                }}
+                style={textareaStyles}
               />
               {formik.touched.descripcion && formik.errors.descripcion && (
                 <Typography color="error" variant="caption">
@@ -305,18 +353,8 @@ const ProductoUpdateForm = ({ productId }) => {
               )}
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Typography>Disponible:</Typography>
-              <SwitchDisponibility
-                checked={formik.values.disponible}
-                onChange={(e) =>
-                  formik.setFieldValue("disponible", e.target.checked)
-                }
-              />
-            </Box>
-
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Typography variant="h6" color="black">
+              <Typography variant="h6" color="#67677D" sx={{ fontWeight: "500" }}>
                 Dimensiones y Peso
               </Typography>
               <Box sx={{ display: "flex", gap: 2 }}>
@@ -328,6 +366,7 @@ const ProductoUpdateForm = ({ productId }) => {
                   onChange={formik.handleChange}
                   error={formik.touched.alto && Boolean(formik.errors.alto)}
                   helperText={formik.touched.alto && formik.errors.alto}
+                  sx={textFieldStyles}
                 />
                 <TextField
                   type="number"
@@ -337,6 +376,7 @@ const ProductoUpdateForm = ({ productId }) => {
                   onChange={formik.handleChange}
                   error={formik.touched.ancho && Boolean(formik.errors.ancho)}
                   helperText={formik.touched.ancho && formik.errors.ancho}
+                  sx={textFieldStyles}
                 />
                 <TextField
                   type="number"
@@ -346,6 +386,7 @@ const ProductoUpdateForm = ({ productId }) => {
                   onChange={formik.handleChange}
                   error={formik.touched.largo && Boolean(formik.errors.largo)}
                   helperText={formik.touched.largo && formik.errors.largo}
+                  sx={textFieldStyles}
                 />
                 <TextField
                   type="number"
@@ -355,12 +396,13 @@ const ProductoUpdateForm = ({ productId }) => {
                   onChange={formik.handleChange}
                   error={formik.touched.peso && Boolean(formik.errors.peso)}
                   helperText={formik.touched.peso && formik.errors.peso}
+                  sx={textFieldStyles}
                 />
               </Box>
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Typography variant="h6" color="black">
+              <Typography variant="h6" color="#67677D" sx={{ fontWeight: "500" }}>
                 Imágenes
               </Typography>
               {formik.values.imagenes.map((url, index) => (
@@ -384,6 +426,7 @@ const ProductoUpdateForm = ({ productId }) => {
                       formik.errors.imagenes &&
                       formik.errors.imagenes[index]
                     }
+                    sx={textFieldStyles}
                   />
                   {index > 0 && (
                     <IconButton
@@ -402,6 +445,18 @@ const ProductoUpdateForm = ({ productId }) => {
               >
                 Agregar otra imagen
               </Button>
+            </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Typography variant="h5" sx={{ color: "#67677D", fontWeight: "500" }}>
+                Disponible:
+              </Typography>
+              <SwitchDisponibility
+                checked={formik.values.disponible}
+                onChange={(e) =>
+                  formik.setFieldValue("disponible", e.target.checked)
+                }
+              />
             </Box>
 
             <Button

@@ -98,7 +98,7 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
       sx={{
         width: isMobile ? "100%" : "30rem",
         height: "100%",
-        backgroundColor: "white",
+        backgroundColor: "black",
         display: "flex",
         flexDirection: "column",
         padding: 2,
@@ -107,17 +107,17 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
         position: isMobile ? "relative" : "absolute",
         right: isMobile ? "auto" : "0px",
         borderRadius: isMobile ? "0" : "0 0 0 60px",
-        borderLeft: isMobile ? "none" : "3px solid black",
-        borderBottom: isMobile ? "none" : "3px solid black",
+        borderLeft: isMobile ? "none" : "3px solid #C3DE5A",
+        borderBottom: isMobile ? "none" : "3px solid #C3DE5A",
         boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-        <Typography variant='h4' sx={{ fontWeight: 'bold' }}> 
+        <Typography variant='h4' sx={{ fontWeight: 'bold', color: 'white' }}> 
           Mi Carrito
         </Typography>
         {isMobile && (
-          <IconButton onClick={onClose} aria-label="cerrar carrito">
+          <IconButton onClick={onClose} aria-label="cerrar carrito" sx={{ color: 'white' }}>
             <CloseIcon />
           </IconButton>
         )}
@@ -129,14 +129,14 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
         justifyContent: "space-between",
         alignItems: "center",
         margin: "0 auto",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#18181F",
         padding: "0.5rem",
         borderRadius: "8px",
         mb: 2
       }}>
-        <Typography sx={{ fontWeight: 'medium' }}>Producto</Typography>
-        <Typography sx={{ fontWeight: 'medium' }}>Cantidad</Typography>
-        <Typography sx={{ fontWeight: 'medium' }}>Precio</Typography>
+        <Typography sx={{ fontWeight: 'medium', color: 'white' }}>Producto</Typography>
+        <Typography sx={{ fontWeight: 'medium', color: 'white' }}>Cantidad</Typography>
+        <Typography sx={{ fontWeight: 'medium', color: 'white' }}>Precio</Typography>
       </Box>
 
       <Box sx={{
@@ -155,7 +155,7 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
               justifyContent: "space-between",
               alignItems: "center",
               padding: "0.5rem",
-              backgroundColor: "#fff",
+              backgroundColor: "#18181F",
               borderRadius: "8px",
               boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
               position: "relative",
@@ -172,7 +172,7 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
                   borderRadius: "4px"
                 }}
               />
-              <Typography sx={{ fontSize: "0.9rem", maxWidth: "150px" }} noWrap>
+              <Typography sx={{ fontSize: "0.9rem", maxWidth: "150px", color: 'white' }} noWrap>
                 {item.name}
               </Typography>
             </Box>
@@ -182,23 +182,26 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
                 size="small"
                 onClick={() => handleQuantityChange(item.id, -1)}
                 disabled={loadingItems[item.id]}
+                sx={{ color: 'white' }}
               >
                 <RemoveIcon />
               </IconButton>
-              <Typography>{item.quantity}</Typography>
+              <Typography sx={{ color: 'white' }}>{item.quantity}</Typography>
               <IconButton
                 size="small"
                 onClick={() => handleQuantityChange(item.id, 1)}
                 disabled={loadingItems[item.id]}
+                sx={{ color: 'white' }}
               >
                 <AddIcon />
               </IconButton>
             </Box>
                 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, minWidth: "80px" }}>
-              <Typography>${subTot(item.price, item.quantity)}</Typography>
+              <Typography sx={{ color: 'white' }}>${subTot(item.price, item.quantity)}</Typography>
               <IconButton
                 size="small"
+                sx={{ color: 'white' }}
                 onClick={() => eliminarDelCarrito(item.id)}
                 color="error"
                 aria-label="eliminar producto"
@@ -224,13 +227,13 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
       </Box>
 
       <Box sx={{
-        borderTop: "1px solid #e0e0e0",
+        borderTop: "1px solid #363645",
         padding: "1rem",
         marginTop: "auto"
       }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2, borderTop: "1px solid #e0e0e0", pt: 2 }}>
-          <Typography variant="h6">Total:</Typography>
-          <Typography variant="h6">${total}</Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2, pt: 2 }}>
+          <Typography variant="h6" sx={{ color: 'white' }}>Total:</Typography>
+          <Typography variant="h6" sx={{ color: 'white' }}>${total}</Typography>
         </Box>
         
         <Button
@@ -238,7 +241,7 @@ const CarritoCompras = React.memo(({ open, onClose }) => {
           fullWidth
           onClick={handlePagar}
           disabled={loading || carritoConSubtotales.length === 0}
-          sx={{ mt: 2 }}
+          sx={{ mt: 2, backgroundColor: '#C3DE5A', color: 'black' }}
         >
           {loading ? (
             <CircularProgress size={24} color="inherit" />

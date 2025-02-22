@@ -91,7 +91,7 @@ const LoginAdminForm = () => {
           <Grid2 sx={{height:"18rem", margin:"0 auto", display:"flex", justifyContent:"center", alignItems:"center"}}>
                        
                         <Image
-                            src="/Logo/LogoMega1.png"
+                            src="/Logo/logo-mc.webp"
                             alt="Logo"
                             width={350}
                             height={200}

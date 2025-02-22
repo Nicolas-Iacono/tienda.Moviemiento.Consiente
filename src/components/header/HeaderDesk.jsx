@@ -101,7 +101,7 @@ export const HeaderDesk = () => {
       <AppBar 
         position="fixed" 
         sx={{ 
-          backgroundColor: "#e8621d",
+          backgroundColor: "#C3DE5A",
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           padding:"0rem"
         }}
@@ -136,7 +136,7 @@ export const HeaderDesk = () => {
             }}
           >
             <Image
-              src="/Logo/LogoMega1.png"
+              src="/Logo/logo-mc.webp"
               alt="Logo MegaOfertas"
               width={84}
               height={55}
@@ -182,7 +182,7 @@ export const HeaderDesk = () => {
                       width: 32, 
                       height: 32,
                       backgroundColor: "#fff",
-                      color: "#e8621d"
+                      color: "#C3DE5A"
                     }}
                   >
                     <PersonIcon />
@@ -285,12 +285,12 @@ export const HeaderDesk = () => {
       >
         <List>
           <ListItem sx={{ justifyContent: "center", mb: 2 }}>
-            {/* <Image
-              src="/Logo/LogoMega1.png"
+            <Image
+              src="/Logo/logo-mc.webp"
               alt="Logo MegaOfertas"
               width={55}
               height={55}
-            /> */}
+            />
           </ListItem>
           <MenuCategoria onClose={toggleMenu} />
         </List>

@@ -33,7 +33,6 @@ const CartPage = () => {
   const [payer, setPayer] = useState({});
   console.log(user);
 
-
   // Calcular el total
   const total = carrito.reduce((acc, item) => {
     const precio = parseFloat(item.price) || 0;
@@ -44,8 +43,8 @@ const CartPage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await API.get(`/users/${user.id}`)
-        setPayer(response.data)
+        const response = await API.get(`/users/${user.id}`);
+        setPayer(response.data);
       } catch (error) {
         console.error("Error al obtener los usuarios:", error);
       }
@@ -53,7 +52,7 @@ const CartPage = () => {
     fetchUser();
   }, []);
 
-  console.log(payer)
+  console.log(payer);
   const handleCheckout = async () => {
     try {
       setLoading(true);
@@ -87,7 +86,7 @@ const CartPage = () => {
         payer: formattedPayer,
       });
       if (response.data && response.data.init_point) {
-        console.log(response)
+        console.log(response);
         window.location.href = response.data.init_point;
       }
     } catch (error) {
@@ -136,16 +135,16 @@ const CartPage = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom sx={{ color: "#ADADAD" }}>
           Tu carrito está vacío
         </Typography>
         <Button
           variant="contained"
           onClick={() => router.push("/")}
           sx={{
-            backgroundColor: "orange",
+            backgroundColor: "#CAE55C",
             "&:hover": {
-              backgroundColor: "darkorange",
+              backgroundColor: "#A5BD46",
             },
           }}
         >
