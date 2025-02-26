@@ -48,7 +48,7 @@ const HeaderMobile = () => {
           width={50}
           height={40}
           style={{ cursor: "pointer" }}
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/blog")}
         />
 
         <SearchBar />

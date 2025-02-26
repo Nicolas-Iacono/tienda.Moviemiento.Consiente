@@ -79,7 +79,7 @@ const Slider = () => {
                   justifyContent: "space-between",
                   alignItems: "stretch",
                   backgroundColor: "rgb(255, 240, 234)",
-                  height: { xs: "350px", sm: "400px", md: "500px" },
+                  height: { xs: "500px", sm: "500px", md: "500px" },
                   position: "relative",
                   overflow: "hidden",
                   width: "100%",

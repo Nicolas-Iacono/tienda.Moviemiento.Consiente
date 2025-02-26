@@ -330,9 +330,10 @@ const CartPage = () => {
               onClick={handleCheckout}
               disabled={loading}
               sx={{
-                backgroundColor: "orange",
+                backgroundColor: "#C3DE5A",
                 "&:hover": {
-                  backgroundColor: "darkorange",
+                  backgroundColor: " #513C9C",
+                  color:"white"
                 },
               }}
             >

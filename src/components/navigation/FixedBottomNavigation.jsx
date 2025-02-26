@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Paper from "@mui/material/Paper";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import StoreIcon from "@mui/icons-material/Store";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import { useMyUserContext } from "@/context/userContext";
@@ -16,6 +16,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { Badge } from "@mui/material";
 import { useMyCarritoContext } from "@/context/carritoContext";
 import MobileCart from "../cart/MobileCart";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const FixedBottomNavigation = () => {
   const [value, setValue] = useState(1);
@@ -75,6 +76,14 @@ const FixedBottomNavigation = () => {
 
   const cartItemCount = carrito?.length || 0;
 
+  const mobileMenu = [
+    { label: 'Home', path: '/' },
+    { label: 'Productos', path: '/products' },
+    { label: 'Carrito', path: '/carrito' },
+    { label: 'Nosotros', path: '/about' },
+    { label: 'Contacto', path: '/contact' },
+  ];
+
   return (
     <>
       <MobileCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
@@ -103,7 +112,6 @@ const FixedBottomNavigation = () => {
         >
           {isAdmin() ? (
             <BottomNavigation
-              showLabels
               value={value}
               onChange={(event, newValue) => setValue(newValue)}
               sx={{
@@ -121,27 +129,46 @@ const FixedBottomNavigation = () => {
                 label="Nuevo"
                 icon={<AddCircleRoundedIcon />}
                 onClick={() => handleNavigation("/admin")}
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "1.7rem",
+                  },
+                }}
               />
               <BottomNavigationAction
                 label="Inventario"
                 icon={<InventoryIcon />}
                 onClick={() => handleNavigation("/listado")}
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "1.7rem",
+                  },
+                }}
               />
 
               <BottomNavigationAction
                 label="Ventas"
                 icon={<MonetizationOnIcon />}
                 onClick={() => handleNavigation("/ventas")}
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "1.7rem",
+                  },
+                }}
               />
               <BottomNavigationAction
                 label="Usuarios"
                 icon={<PeopleAltIcon />}
                 onClick={() => handleNavigation("/users")}
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "1.7rem",
+                  },
+                }}
               />
             </BottomNavigation>
           ) : (
             <BottomNavigation
-              showLabels
               value={value}
               onChange={(event, newValue) => setValue(newValue)}
               sx={{
@@ -159,25 +186,43 @@ const FixedBottomNavigation = () => {
                 label="Favoritos"
                 icon={<FavoriteRoundedIcon />}
                 onClick={() => handleNavigation("/user/favorites")}
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "1.7rem",
+                  },
+                }}
               />
               <BottomNavigationAction
-                label="Inicio"
-                icon={<HomeRoundedIcon />}
+                label="Tienda"
+                icon={<StoreIcon />}
                 onClick={() => handleNavigation("/")}
                 sx={{
                   "& .MuiSvgIcon-root": {
-                    fontSize: "1.8rem",
+                    fontSize: "1.7rem",
                   },
                 }}
               />
               <BottomNavigationAction
                 label="Carrito"
                 icon={
-                  <Badge badgeContent={cartItemCount} color="error">
+                  <Badge 
+                    badgeContent={cartItemCount} 
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: 'black',
+                        color: 'white'
+                      }
+                    }}
+                  >
                     <ShoppingCartRoundedIcon />
                   </Badge>
                 }
                 onClick={() => handleNavigation("/carrito")}
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "1.7rem",
+                  },
+                }}
               />
             </BottomNavigation>
           )}

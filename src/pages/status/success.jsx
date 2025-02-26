@@ -61,7 +61,7 @@ const Success = () => {
             >
               Volver al Inicio
             </Button>
-            <Button
+            {/* <Button
               variant="outlined"
               onClick={() => router.push('/user/orders')}
               sx={{
@@ -74,7 +74,7 @@ const Success = () => {
               }}
             >
               Ver Mis Pedidos
-            </Button>
+            </Button> */}
           </Box>
         </Paper>
       </Box>

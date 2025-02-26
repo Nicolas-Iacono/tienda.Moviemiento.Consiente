@@ -12,6 +12,7 @@ import {
   Divider,
   Button
 } from '@mui/material';
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import {
   Person as PersonIcon,
   ExitToApp as ExitToAppIcon,
@@ -74,6 +75,12 @@ const MobileMenu = ({ open, onClose }) => {
     router.push("/categorias")
     onClose();
   }
+  const handleBlog = () => {
+    router.push("/blog")
+    onClose();
+  }
+  
+
 
   return (
     <Drawer
@@ -163,7 +170,12 @@ const MobileMenu = ({ open, onClose }) => {
                 </ListItemIcon>
                 <ListItemText primary="Carrito" />
               </ListItem>
-              
+              <ListItem button onClick={handleBlog} sx={{ color: 'white' }}>
+                <ListItemIcon sx={{ color: 'white' }}>
+                  <HomeRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
             </>
           )}
 
@@ -186,12 +198,21 @@ const MobileMenu = ({ open, onClose }) => {
           )}
 
           {!logued && (
+            <>
             <ListItem button onClick={handleLogin} sx={{ color: 'white' }}>
               <ListItemIcon sx={{ color: 'white' }}>
                 <LoginIcon />
               </ListItemIcon>
               <ListItemText primary="Iniciar Sesión" />
             </ListItem>
+
+            <ListItem button onClick={handleBlog} sx={{ color: 'white' }}>
+                <ListItemIcon sx={{ color: 'white' }}>
+                  <HomeRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
+            </>
           )}
         </List>
       </Box>
