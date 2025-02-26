@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 import "../../styles/slideStyles.css";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { useRouter } from "next/router";
-import { Typography, Box, Button, Paper } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import API from "@/utils/api";
 
 const Slider = () => {
@@ -38,7 +38,17 @@ const Slider = () => {
   }, []);
 
   return (
-    <Paper elevation={2} sx={{ borderRadius: "25px", overflow: "hidden" }}>
+    <Box sx={{ 
+      width: '100%', 
+      height: '100%',
+      margin: 0,
+      padding: 0,
+      '& .swiper-container': {
+        width: '100%',
+        margin: 0,
+        padding: 0,
+      }
+    }}>
       <Swiper
         autoplay={{
           delay: 5000,
@@ -57,21 +67,24 @@ const Slider = () => {
         }}
         modules={[Autoplay, Navigation, Pagination]}
         className="mySwiper"
+        style={{ width: '100%', height: '100%' }}
       >
         {products
           .filter((producto) => producto.disponible)
           .map((product) => (
-            <SwiperSlide key={product.id}>
+            <SwiperSlide key={product.id} style={{ width: '100%' }}>
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "stretch",
                   backgroundColor: "rgb(255, 240, 234)",
-                  height: { xs: "400px", md: "500px" },
+                  height: { xs: "350px", sm: "400px", md: "500px" },
                   position: "relative",
                   overflow: "hidden",
-                  marginTop: "2rem",
+                  width: "100%",
+                  margin: 0,
+                  padding: 0,
                 }}
               >
                 {/* Contenido del producto */}
@@ -80,8 +93,8 @@ const Slider = () => {
                     display: "flex",
                     justifyContent: "center",
                     flexDirection: "column",
-                    padding: { xs: "1.5rem", md: "3rem" },
-                    width: "50%",
+                    padding: { xs: "1rem", sm: "1.5rem", md: "3rem" },
+                    width: { xs: "60%", sm: "50%" },
                     zIndex: 1,
                     background:
                       "linear-gradient(to right, rgb(255, 208, 244) 60%, transparent)",
@@ -174,7 +187,7 @@ const Slider = () => {
             </SwiperSlide>
           ))}
       </Swiper>
-    </Paper>
+    </Box>
   );
 };
 
