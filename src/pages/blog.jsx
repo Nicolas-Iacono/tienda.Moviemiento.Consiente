@@ -3,10 +3,16 @@ import { styled } from '@mui/material/styles';
 import HeroSlider from '../components/HeroSlider';
 import InstagramFeed from '../components/InstagramFeed';
 import ClassSchedule from '../components/ClassSchedule';
-import { Container, Grid2, Button, Card, Typography, Box } from '@mui/material';
+import { Container, Grid2, Button, Card, Typography, Box, IconButton } from '@mui/material';
 import { motion } from 'framer-motion';
+import EditIcon from '@mui/icons-material/Edit';
+import { useRouter } from 'next/router';
+import { useMyUserContext } from '../context/userContext';
 
 const Blog = () => {
+  const { isAdmin } = useMyUserContext();
+  const router = useRouter();
+
   const nutritionPlans = [
     {
       title: 'Plan Básico',
@@ -24,6 +30,20 @@ const Blog = () => {
 
   return (
     <BlogContainer>
+      {isAdmin && (
+        <Box sx={{ position: 'fixed', top: 70, right: 20, zIndex: 1000 }}>
+          <IconButton
+            color="primary"
+            sx={{ 
+              backgroundColor: 'white',
+              '&:hover': { backgroundColor: '#f5f5f5' }
+            }}
+            onClick={() => router.push('/editBlog')}
+          >
+            <EditIcon />
+          </IconButton>
+        </Box>
+      )}
       <HeroSlider />
       
       <Section>
