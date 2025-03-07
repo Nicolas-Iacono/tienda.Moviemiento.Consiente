@@ -1,36 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import HeroSlider from '../components/HeroSlider';
 import InstagramFeed from '../components/InstagramFeed';
 import ClassSchedule from '../components/ClassSchedule';
-import { Container, Grid2, Button, Card, Typography, Box, IconButton } from '@mui/material';
+import { Container, Grid2, Button, Card, Typography, Box, IconButton, Chip } from '@mui/material';
 import { motion } from 'framer-motion';
 import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
 import { useMyUserContext } from '../context/userContext';
+import API from '@/utils/api';
 
 const Blog = () => {
-  const { isAdmin } = useMyUserContext();
+  const { user } = useMyUserContext();
   const router = useRouter();
+  const [sections, setSections] = useState([]);
 
-  const nutritionPlans = [
-    {
-      title: 'Plan Básico',
-      description: 'Plan personalizado de nutrición con seguimiento mensual',
-      price: '$29.99/mes',
-      features: ['Evaluación inicial', 'Plan alimenticio personalizado', 'Una consulta mensual']
-    },
-    {
-      title: 'Plan Premium',
-      description: 'Plan completo con seguimiento semanal y ajustes continuos',
-      price: '$49.99/mes',
-      features: ['Todo lo del plan básico', 'Consultas semanales', 'Ajustes de plan según progreso', 'Recetas exclusivas']
-    }
-  ];
 
+  useEffect(() => {
+    const fetchSections = async () => {
+      try {
+        const response = await API.get('/blog/secciones');
+        const sectionsData = response.data;
+        
+        // Filter sections that have classes or subscriptions
+        const sectionsWithContent = sectionsData.filter(section => 
+          (section.clases && section.clases.length > 0) || 
+          (section.suscripciones && section.suscripciones.length > 0)
+        );
+        
+        setSections(sectionsWithContent);
+      } catch (error) {
+        console.error('Error fetching sections:', error);
+      }
+    };
+    fetchSections();
+  }, []);
+
+  console.log("ES ADMIN" ,user.authorities)
   return (
     <BlogContainer>
-      {isAdmin && (
+      {user.authorities.includes('ROLE_ADMIN') && (
         <Box sx={{ position: 'fixed', top: 70, right: 20, zIndex: 1000 }}>
           <IconButton
             color="primary"
@@ -55,106 +64,88 @@ const Blog = () => {
         </Container>
       </Section>
 
-      <ClassSchedule />
 
-      <Section sx={{ backgroundColor: '#f8f8f8' }}>
-        <Container>
-          <SectionTitle variant="h2">Planes de Nutrición</SectionTitle>
-          <Grid2 container spacing={4} justifyContent="center">
-            {nutritionPlans.map((plan, index) => (
-              <Grid2 item xs={12} md={6} key={index}>
-                <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
-                  <PlanCard>
-                    <Box sx={{ p: 3 }}>
-                      <Typography variant="h5" component="h3" gutterBottom>
-                        {plan.title}
-                      </Typography>
-                      <Typography variant="h4" component="p" color="primary" gutterBottom>
-                        {plan.price}
-                      </Typography>
-                      <Typography variant="body1" color="textSecondary" paragraph>
-                        {plan.description}
-                      </Typography>
-                      <Box component="ul" sx={{ pl: 2 }}>
-                        {plan.features.map((feature, idx) => (
-                          <li key={idx}>{feature}</li>
-                        ))}
-                      </Box>
-                      <Button variant="contained" color="primary" fullWidth>
-                        Comenzar Ahora
-                      </Button>
-                    </Box>
-                  </PlanCard>
-                </motion.div>
-              </Grid2>
-            ))}
-          </Grid2>
-        </Container>
-      </Section>
+      {sections.map((section) => (
+        <Section key={section.id} sx={{ backgroundColor: section.clases?.length > 0 ? '#f8f8f8' : 'white' }}>
+          <Container>
+            <SectionTitle variant="h2">{section.nombre}</SectionTitle>
+            
+            {section.clases && section.clases.length > 0 && (
+              <>
+                <Grid2 container spacing={4} justifyContent="center">
+                  {section.clases.map((clase) => (
+                    <Grid2 item xs={12} md={6} key={clase.id}>
+                      <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
+                        <PlanCard>
+                          <Box>
+                            <img src={clase.imagen} alt={clase.nombre} style={{ width: '100%', height: 'auto' }} />
+                          </Box>
+                          <Box sx={{ p: 3 }}>
+                            <Typography variant="h5" component="h3" gutterBottom>
+                              {clase.nombre}
+                            </Typography>
+                            <Typography variant="body1" paragraph>
+                              {clase.descripcion}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              Instructor: {clase.instructor}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              Horario: {clase.horaInicio} - {clase.horaFin}
+                            </Typography>
+                            <Box sx={{ mt: 2 }}>
+                              {clase.dias.map((dia, idx) => (
+                                <Chip key={idx} label={dia} sx={{ mr: 1, mb: 1 }} />
+                              ))}
+                            </Box>
+                          </Box>
+                        </PlanCard>
+                      </motion.div>
+                    </Grid2>
+                  ))}
+                </Grid2>
+              </>
+            )}
+
+            {section.suscripciones && section.suscripciones.length > 0 && (
+              <>
+                <Typography variant="h4" gutterBottom sx={{ mt: 4 }}>Suscripciones</Typography>
+                <Grid2 container spacing={4} justifyContent="center">
+                  {section.suscripciones.map((subscription) => (
+                    <Grid2 item xs={12} md={6} key={subscription.id}>
+                      <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
+                        <PlanCard>
+                          <Box sx={{ p: 3 }}>
+                            <Typography variant="h5" component="h3" gutterBottom>
+                              {subscription.nombre}
+                            </Typography>
+                            <Typography variant="h4" component="p" color="primary" gutterBottom>
+                              ${subscription.precio}
+                            </Typography>
+                            <Typography variant="body1" paragraph>
+                              {subscription.descripcion}
+                            </Typography>
+                            <Box component="ul" sx={{ pl: 2 }}>
+                              {subscription.items.map((item, idx) => (
+                                <li key={idx}>{item}</li>
+                              ))}
+                            </Box>
+                            <Button variant="contained" color="primary" fullWidth>
+                              Suscribirse
+                            </Button>
+                          </Box>
+                        </PlanCard>
+                      </motion.div>
+                    </Grid2>
+                  ))}
+                </Grid2>
+              </>
+            )}
+          </Container>
+        </Section>
+      ))}
 
       <InstagramFeed />
-
-      <Section>
-        <Container>
-          <SectionTitle variant="h2">Galería de Fotos</SectionTitle>
-          <Grid2 container spacing={2}>
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <Grid2 item xs={12} sm={6} md={4} key={item}>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Box
-                    component="img"
-                    src={`https://placehold.co/600x400/png?text=Gallery+${item}`}
-                    alt={`Gallery image ${item}`}
-                    sx={{
-                      width: '100%',
-                      height: 300,
-                      objectFit: 'cover',
-                      borderRadius: 1
-                    }}
-                  />
-                </motion.div>
-              </Grid2>
-            ))}
-          </Grid2>
-        </Container>
-      </Section>
-
-      <Box sx={{ 
-        backgroundColor: '#333',
-        color: 'white',
-        py: 4
-      }}>
-        <Container>
-          <SectionTitle variant="h2" sx={{ color: 'white' }}>Contacto</SectionTitle>
-          <Grid2 container spacing={4} justifyContent="center">
-            <Grid2 item xs={12} md={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h6" gutterBottom>
-                  Ubicación
-                </Typography>
-                <Typography paragraph>
-                  Av. Ejemplo 123, Ciudad
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                  Teléfono
-                </Typography>
-                <Typography paragraph>
-                  +123 456 789
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                  Email
-                </Typography>
-                <Typography paragraph>
-                  info@movimientoconsiente.com
-                </Typography>
-              </Box>
-            </Grid2>
-          </Grid2>
-        </Container>
-      </Box>
     </BlogContainer>
   );
 };

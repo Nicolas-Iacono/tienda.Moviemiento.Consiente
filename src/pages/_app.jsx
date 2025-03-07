@@ -1,4 +1,4 @@
-// pages/_app.js
+// pages/_app.jsx
 import Layout from "../components/Layout";
 import {UserContextProvider} from "../context/userContext.jsx";
 import { CategoryContextProvider } from "@/context/categoryContext";
@@ -11,6 +11,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import LoadingTransition from '../components/LoadingTransition';
+import Head from 'next/head';
+import { registerServiceWorker } from '../utils/registerSW';
 
 initMercadoPago(process.env.NEXT_PUBLIC_MP_PUBLIC_KEY, { locale: "es-AR" });
 
@@ -28,13 +30,14 @@ const cache = createCache({
 });
 
 export default function MyApp({ Component, pageProps }) {
-
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    // Register service worker for PWA functionality
+    registerServiceWorker();
+
     const handleStart = (url) => {
-      // Solo mostrar la carga cuando navegamos entre blog y tienda
       const isBlogToStore = (router.pathname === '/blog' && url === '/');
       const isStoreToBlog = (router.pathname === '/' && url === '/blog');
       
@@ -44,7 +47,6 @@ export default function MyApp({ Component, pageProps }) {
     };
 
     const handleComplete = () => {
-      // Solo aplicar el timeout si estamos cargando
       if (isLoading) {
         setTimeout(() => {
           setIsLoading(false);
@@ -82,6 +84,15 @@ export default function MyApp({ Component, pageProps }) {
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <Head>
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#000000" />
+          <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          <meta name="apple-mobile-web-app-title" content="MC Store" />
+        </Head>
         {isLoading && <LoadingTransition />}
         <CategoryContextProvider>
           <CarritoContextProvider>

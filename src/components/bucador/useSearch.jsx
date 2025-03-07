@@ -56,7 +56,7 @@ const useSearch = (query) => {
         }
       }
     }, 300),
-    []
+    [cleanupController] // Added cleanupController as dependency
   );
 
   // Efecto para manejar la búsqueda
