@@ -26,7 +26,7 @@ export default function Custom404() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => router.push('/blog')}
+          onClick={() => router.push('/')}
           sx={{ mt: 2 }}
         >
           Volver al inicio

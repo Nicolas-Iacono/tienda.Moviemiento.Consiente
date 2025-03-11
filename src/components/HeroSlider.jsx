@@ -5,6 +5,7 @@ import '@splidejs/splide/dist/css/splide.min.css';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Image from 'next/image';
 import axios from 'axios';
 import { useMyUserContext } from '@/context/userContext';
 import { useRouter } from 'next/router';
@@ -59,7 +60,15 @@ const HeroSlider = () => {
       >
         {galleryImages.map((image, index) => (
           <SplideSlide key={index}>
-            <SlideImage component="img" src={image} alt={`Slide ${index + 1}`} />
+            <SlideImageContainer>
+              <Image
+                src={image}
+                alt={`Slide ${index + 1}`}
+                fill
+                style={{ objectFit: 'cover' }}
+                priority={index === 0}
+              />
+            </SlideImageContainer>
           </SplideSlide>
         ))}
       </Splide>
@@ -112,10 +121,10 @@ const SliderContainer = styled(Box)({
   height: '80vh',
 });
 
-const SlideImage = styled(Box)({
+const SlideImageContainer = styled(Box)({
+  position: 'relative',
   width: '100%',
   height: '100%',
-  objectFit: 'cover',
 });
 
 const TitleContainer = styled(Box)({

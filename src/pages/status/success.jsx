@@ -11,7 +11,7 @@ const Success = () => {
   useEffect(() => {
     // Limpiar el carrito después de una compra exitosa
     vaciarCarrito();
-  }, []);
+  }, [vaciarCarrito]);
 
   return (
     <Container maxWidth="sm">

@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/material/styles';
 import ImageUploader from '@/components/ImageUploader';
+import Image from 'next/image';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -225,7 +226,7 @@ const EditBlog = () => {
                 <ImageList sx={{ width: '100%', height: 200 }} cols={4} rowHeight={164}>
                   {sliderImages.map((img, index) => (
                     <ImageListItem key={index} sx={{ position: 'relative' }}>
-                      <img
+                      <Image
                         src={img}
                         alt={`Slider image ${index + 1}`}
                         loading="lazy"
