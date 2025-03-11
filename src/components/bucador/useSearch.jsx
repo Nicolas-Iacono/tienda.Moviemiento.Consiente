@@ -10,9 +10,13 @@ const useSearch = (query) => {
 
   // Función para limpiar el controlador actual
   const cleanupController = useCallback(() => {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-      controllerRef.current = null;
+    try {
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+        controllerRef.current = null;
+      }
+    } catch (error) {
+      console.log('Error al cancelar la búsqueda:', error);
     }
   }, []);
 

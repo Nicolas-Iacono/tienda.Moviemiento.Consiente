@@ -1,19 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, Avatar, Divider, IconButton, TextField, Button } from "@mui/material";
-import { Email, Home, Phone, Edit } from "@mui/icons-material";
+import { Typography, Box, Avatar, Divider, IconButton, TextField, Button, Chip } from "@mui/material";
+import { Email, Home, Phone, Edit, CameraAlt } from "@mui/icons-material";
 import { useMyUserContext } from "@/context/userContext";
 import API from "@/utils/api";
+import AvatarUploader from "@/components/AvatarUploader";
 
 const Perfil = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { user, setUser } = useMyUserContext();
   const [userStorage, setUserStorage] = useState(null);
-  console.log(user)
-  useEffect(() => {
-    API.get(`/users/${user.id}`)
-      .then((res) => setUserStorage(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+
+  const handleImageUpload = async (urls) => {
+    if (!urls?.length || !user?.id) return;
+
+    try {
+      const body = {
+        profileImage: urls[0]
+      };
+      await API.put(`/galery/users/${user.id}/galery/profile-image`, body);
+      setUserStorage({ 
+        ...userStorage, 
+        galery: {
+          ...userStorage.galery,
+          profileImage: urls[0]
+        }
+      });
+    } catch (error) {
+      console.error("Error al actualizar el avatar:", error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,15 +55,48 @@ const Perfil = () => {
   };
 
   const handleSave = () => {
-    API.post(`/users/update/${user.id}`, userStorage)
+    API.put(`/users/update/${user.id}`, userStorage)
       .then(() => {
         setIsEditing(false);
-        setUser(res.data);
+        setUser(userStorage);
       })
       .catch((err) => console.error(err));
   };
 
-  if (!userStorage) return <Typography>Cargando...</Typography>;
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.id) return;
+
+      try {
+        const [userResponse, galeryResponse] = await Promise.all([
+          API.get(`/users/${user.id}`),
+          API.get(`/users/${user.id}/galery`).catch(async (error) => {
+            if (error.response?.status === 404) {
+              console.log("Gallery not found, initializing empty gallery state");
+              return { 
+                data: {
+                  images: [],
+                  profileImage: null
+                }
+              };
+            }
+            throw error;
+          })
+        ]);
+        
+        setUserStorage({
+          ...userResponse.data,
+          galery: galeryResponse.data
+        });
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.id]);
+
+  if (!userStorage) return <Typography sx={{ color: 'white' }}>Cargando...</Typography>;
 
   return (
     <Box
@@ -63,8 +111,16 @@ const Perfil = () => {
       }}
     >
       {/* Botón de edición */}
-  <IconButton
-        sx={{ position: "absolute", top: 70, right: 10 , widht:"8rem", height:"4rem"}}
+      <IconButton
+        sx={{ 
+          position: "absolute", 
+          top: 70, 
+          right: 16, 
+          color: 'white',
+          '&:hover': {
+            backgroundColor: ''
+          }
+        }}
         onClick={() => setIsEditing(!isEditing)}
       >
         <Edit />
@@ -77,16 +133,26 @@ const Perfil = () => {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          marginTop:"5rem",
+          marginTop: "5rem",
         }}
       >
         {/* Avatar y Nombre */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexDirection:{xs:"column", md:"row"} }}>
-          <Avatar sx={{ width: 80, height: 80, bgcolor: "primary.main", position:"relative"}}>
-            {userStorage.first_name.charAt(0)}
-            {userStorage.last_name.charAt(0)}
-          </Avatar>
-          <Box sx={{display:"flex",flexDirection:"column",alignItems:{xs:"center", md:"start"}}}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexDirection: { xs: "column", md: "row" } }}>
+          <Box sx={{ position: 'relative' }}>
+            <Avatar 
+              sx={{ 
+                width: 80, 
+                height: 80, 
+                bgcolor: "primary.main",
+                position: "relative"
+              }}
+              src={userStorage?.galery?.profileImage || null}
+            >
+              {!userStorage?.galery?.profileImage && `${userStorage.first_name.charAt(0)}${userStorage.last_name.charAt(0)}`}
+            </Avatar>
+            {isEditing && <AvatarUploader onUploadComplete={handleImageUpload} />}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "start" } }}>
             {isEditing ? (
               <>
                 <TextField
@@ -95,6 +161,13 @@ const Perfil = () => {
                   value={userStorage.first_name}
                   onChange={handleChange}
                   fullWidth
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    '& .MuiInputLabel-root': { color: 'white' },
+                    '& .MuiOutlinedInput-input': { color: 'white' }
+                  }}
                 />
                 <TextField
                   label="Apellido"
@@ -102,15 +175,22 @@ const Perfil = () => {
                   value={userStorage.last_name}
                   onChange={handleChange}
                   fullWidth
-                  sx={{ mt: 1 }}
+                  sx={{
+                    mt: 1,
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    '& .MuiInputLabel-root': { color: 'white' },
+                    '& .MuiOutlinedInput-input': { color: 'white' }
+                  }}
                 />
               </>
             ) : (
               <>
-                <Typography variant="h5" fontWeight="bold">
+                <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
                   {userStorage.first_name} {userStorage.last_name}
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                   Registrado el: {new Date(userStorage.registration_date).toLocaleDateString()}
                 </Typography>
               </>
@@ -118,11 +198,11 @@ const Perfil = () => {
           </Box>
         </Box>
 
-        <Divider />
+        <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)' }} />
 
         {/* Email */}
         <Box>
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ color: 'white' }}>
             <Email fontSize="small" /> Email
           </Typography>
           {isEditing ? (
@@ -132,17 +212,24 @@ const Perfil = () => {
               name="email"
               value={userStorage.email}
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                },
+                '& .MuiInputLabel-root': { color: 'white' },
+                '& .MuiOutlinedInput-input': { color: 'white' }
+              }}
             />
           ) : (
-            <Typography color="textSecondary">{userStorage.email}</Typography>
+            <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>{userStorage.email}</Typography>
           )}
         </Box>
 
-        <Divider />
+        <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)' }} />
 
         {/* Dirección */}
         <Box>
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ color: 'white' }}>
             <Home fontSize="small" /> Dirección
           </Typography>
           {isEditing ? (
@@ -153,7 +240,14 @@ const Perfil = () => {
                 name="address.street_name"
                 value={userStorage.address.street_name}
                 onChange={handleChange}
-                sx={{ mb: 1 }}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
               <TextField
                 fullWidth
@@ -161,7 +255,14 @@ const Perfil = () => {
                 name="address.street_number"
                 value={userStorage.address.street_number}
                 onChange={handleChange}
-                sx={{ mb: 1 }}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
               <TextField
                 fullWidth
@@ -169,7 +270,14 @@ const Perfil = () => {
                 name="address.floor"
                 value={userStorage.address.floor}
                 onChange={handleChange}
-                sx={{ mb: 1 }}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
               <TextField
                 fullWidth
@@ -177,7 +285,14 @@ const Perfil = () => {
                 name="address.apartment"
                 value={userStorage.address.apartment}
                 onChange={handleChange}
-                sx={{ mb: 1 }}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
               <TextField
                 fullWidth
@@ -185,7 +300,14 @@ const Perfil = () => {
                 name="address.city_name"
                 value={userStorage.address.city_name}
                 onChange={handleChange}
-                sx={{ mb: 1 }}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
               <TextField
                 fullWidth
@@ -193,21 +315,28 @@ const Perfil = () => {
                 name="address.zip_code"
                 value={userStorage.address.zip_code}
                 onChange={handleChange}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
             </>
           ) : (
-            <Typography color="textSecondary">
+            <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
               {userStorage.address.street_name} {userStorage.address.street_number}, Piso{" "}
               {userStorage.address.floor}, Dpto {userStorage.address.apartment}
             </Typography>
           )}
         </Box>
 
-        <Divider />
+        <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)' }} />
 
         {/* Teléfono */}
         <Box>
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ color: 'white' }}>
             <Phone fontSize="small" /> Teléfono
           </Typography>
           {isEditing ? (
@@ -218,7 +347,14 @@ const Perfil = () => {
                 name="phone.area_code"
                 value={userStorage.phone.area_code}
                 onChange={handleChange}
-                sx={{ mb: 1 }}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
               <TextField
                 fullWidth
@@ -226,18 +362,38 @@ const Perfil = () => {
                 name="phone.number"
                 value={userStorage.phone.number}
                 onChange={handleChange}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                  '& .MuiInputLabel-root': { color: 'white' },
+                  '& .MuiOutlinedInput-input': { color: 'white' }
+                }}
               />
             </>
           ) : (
-            <Typography color="textSecondary">
+            <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
               ({userStorage.phone.area_code}) {userStorage.phone.number}
             </Typography>
           )}
         </Box>
 
         {isEditing && (
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 , marginBottom:{xs:"3rem"}}}>
-            <Button variant="contained" color="primary" onClick={handleSave}>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2, marginBottom: { xs: "3rem" } }}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={handleSave}
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'primary.dark',
+                },
+                px: 4,
+                py: 1
+              }}
+            >
               Guardar
             </Button>
           </Box>

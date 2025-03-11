@@ -1,4 +1,5 @@
-import supabase from "../supabaseClient";
+import supabase from "../utils/supabaseClient";
+import compressImage from "../utils/compressImage";
 
 const uploadImage = async (file) => {
   if (!file) return null;

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Crear instancia de axios con configuración base
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://tiendamcbackend-production.up.railway.app',
+  baseURL: 'http://localhost:5000',
   timeout: 10000, // 10 segundos de timeout
   headers: {
     'Content-Type': 'application/json',
@@ -30,15 +30,33 @@ API.interceptors.request.use(
 
 // Interceptor para manejar errores
 API.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('API Response:', {
+      url: response.config.url,
+      method: response.config.method,
+      status: response.status,
+      data: response.data
+    });
+    return response;
+  },
   (error) => {
+    const errorDetails = {
+      url: error.config?.url,
+      method: error.config?.method,
+      code: error.code,
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data
+    };
+
     if (error.code === 'ECONNABORTED') {
-      console.error('La solicitud tardó demasiado tiempo');
+      console.error('Request timeout:', errorDetails);
     } else if (!error.response) {
-      console.error('Error de red o servidor no disponible');
+      console.error('Network or server error:', errorDetails);
     } else {
-      console.error('Error de respuesta:', error.response.status);
+      console.error('API error:', errorDetails);
     }
+
     return Promise.reject(error);
   }
 );

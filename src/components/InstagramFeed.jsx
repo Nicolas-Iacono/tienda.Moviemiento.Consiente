@@ -1,102 +1,75 @@
 import React from 'react';
+import { Box, Typography, IconButton } from '@mui/material';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
-import { Grid2, Box, Typography, } from '@mui/material';
+
+const Section = styled('section')(({ theme }) => ({
+  padding: theme.spacing(8, 0),
+  textAlign: 'center',
+  backgroundColor: '#f8f8f8',
+}));
+
+const SectionTitle = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
+  fontWeight: 'bold',
+  color: '#333',
+}));
+
+const InstagramButton = styled(IconButton)(({ theme }) => ({
+  color: '#E1306C',
+  backgroundColor: 'white',
+  padding: theme.spacing(2),
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: '#E1306C',
+    color: 'white',
+    transform: 'translateY(-2px)',
+  },
+  boxShadow: '0 4px 20px rgba(227, 48, 108, 0.15)',
+}));
 
 const InstagramFeed = () => {
-  // Simulated Instagram posts - replace with real Instagram API integration
-  const posts = [
-    {
-      id: 1,
-      image: '/blog/insta1.png',
-      caption: 'Clase de yoga matutina 🧘‍♀️ #MovimientoConsiente',
-      likes: 45,
-    },
-    {
-      id: 2,
-      image: '/blog/insta2.png',
-      caption: 'Entrenamiento funcional 💪 #Fitness',
-      likes: 67,
-    },
-    {
-      id: 3,
-      image: '/blog/insta3.png',
-      caption: 'Nuevas clases disponibles! 🎉 #MovimientoConsiente',
-      likes: 89,
-    },
-  ];
-
   return (
     <Section>
       <SectionTitle variant="h2">Síguenos en Instagram</SectionTitle>
-      <Box spacing={2}>
-        {posts.map((post) => (
-          <Box xs={12} sm={6} md={4} key={post.id}>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <PostContainer>
-                <PostImage component="img" src={post.image} alt={post.caption} />
-                <PostOverlay>
-                  <Typography variant="body1" sx={{ textAlign: 'center', mb: 1 }}>
-                    {post.caption}
-                  </Typography>
-               
-                </PostOverlay>
-              </PostContainer>
-            </motion.div>
-          </Box>
-        ))}
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          gap: 2
+        }}
+      >
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+        >
+          <InstagramButton
+            href="https://www.instagram.com/gymmovimientoconsciente/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Síguenos en Instagram"
+            size="large"
+          >
+            <InstagramIcon sx={{ fontSize: 40 }} />
+          </InstagramButton>
+        </motion.div>
+        <Typography 
+          variant="subtitle1" 
+          sx={{ 
+            color: '#666',
+            mt: 2,
+            fontWeight: 500
+          }}
+        >
+          @gymmovimientoconsciente
+        </Typography>
       </Box>
     </Section>
   );
 };
-
-const Section = styled(Box)({
-  padding: '4rem 2rem',
-  backgroundColor: '#f8f8f8',
-});
-
-const SectionTitle = styled(Typography)({
-  textAlign: 'center',
-  marginBottom: '2rem',
-  color: '#333',
-});
-
-const PostContainer = styled(Box)({
-  position: 'relative',
-  width: '100%',
-  paddingBottom: '100%',
-  overflow: 'hidden',
-  borderRadius: '8px',
-});
-
-const PostImage = styled(Box)({
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-});
-
-const PostOverlay = styled(Box)({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  background: 'rgba(0, 0, 0, 0.5)',
-  opacity: 0,
-  transition: 'opacity 0.3s',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: '1rem',
-  color: 'white',
-  '&:hover': {
-    opacity: 1,
-  },
-});
 
 export default InstagramFeed;

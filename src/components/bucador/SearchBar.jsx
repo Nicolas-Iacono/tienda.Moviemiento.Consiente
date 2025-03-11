@@ -47,7 +47,7 @@ const SearchBar = () => {
   };
 
   const handleQueryChange = (e) => {
-    setQuery(e.target.value);
+    setQuery(e.target.value.toLowerCase());
     setIsOpen(true);
   };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Drawer,
   Box,
@@ -25,31 +25,38 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { useMyUserContext } from '@/context/userContext';
-import { useEffect, useState } from 'react';
+import API from '@/utils/api';
+
+
 
 const MobileMenu = ({ open, onClose }) => {
   const router = useRouter();
-  const { user, logout } = useMyUserContext();
-
-  const[logued, setLogued] = useState(false);
+  const { user, logout, setUser } = useMyUserContext();
+  const [logued, setLogued] = useState(false);
+  const [userStorage, setUserStorage] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const userLogued = localStorage.getItem("user");
     setLogued(!!userLogued);
-  },[]);
-  
+
+    const fetchUserData = async () => {
+      try {
+        const response = await API.get(`/users/${user.id}`);
+        setUserStorage(response.data);
+        setIsAdmin(response.data?.authorities?.includes("ROLE_ADMIN"));
+      } catch (error) {
+        console.error("Error al obtener datos del usuario:", error);
+      }
+    };
+
+    if (user?.id) {
+      fetchUserData();
+    }
+  }, [user?.id]);
 
   console.log("sesion",logued ? "INICIADA":"NO INICIADA");
 
-  const [isAdmin,setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    if(user.authorities[0] === "ROLE_ADMIN")
-    setIsAdmin(true);
-    else
-    setIsAdmin(false);
-  }, [user]);
-  
   const handleLogout = () => {
     logout();
     onClose();
@@ -106,24 +113,25 @@ const MobileMenu = ({ open, onClose }) => {
             <CloseIcon />
           </IconButton>
         </Box>
-
+        
         {user ? (
           <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <Avatar
-              sx={{
-                width: 80,
-                height: 80,
+            <Avatar 
+              sx={{ 
+                width: 80, 
+                height: 80, 
+                bgcolor: "primary.main",
                 margin: '0 auto',
-                bgcolor: 'primary.main',
               }}
+              src={userStorage?.galery?.profileImage || null}
             >
-              {user.first_name?.[0]?.toUpperCase() || <PersonIcon />}
+              {!userStorage?.galery?.profileImage && `${userStorage?.first_name?.charAt(0)}${userStorage?.last_name?.charAt(0)}`}
             </Avatar>
             <Typography variant="h6" sx={{ mt: 1, color: 'white' }}>
-              {user.first_name} {user.last_name}
+              {userStorage?.first_name} {userStorage?.last_name}
             </Typography>
             <Typography variant="body2" sx={{ color: 'white' }}>
-              {user.email}
+              {userStorage?.email}
             </Typography>
           </Box>
         ) : (

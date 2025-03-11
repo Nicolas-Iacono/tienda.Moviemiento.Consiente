@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/splide.min.css';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-const sliderImages = [
-  '/modelo/rnegra1.png',
-  '/modelo/rnegra2.png',
-  '/modelo/rnegrapecho1.png',
-  '/modelo/rnegrapecho2.png',
-  '/modelo/violeta1.png',
-  '/modelo/violeta2.png',
-  '/modelo/violeta3.png',
-  '/modelo/violeta4.png',
-  '/modelo/violeta5.png',
-  
-];
+import axios from 'axios';
+import { useMyUserContext } from '@/context/userContext';
+import { useRouter } from 'next/router';
+import API from '@/utils/api';
 
 const HeroSlider = () => {
+  const { isAdmin, user } = useMyUserContext();
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [titleAnimation, setTitleAnimation] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
 
+  useEffect(() => {
+    const fetchUserGallery = async () => {
+      try {
+        if (user && user.id) {
+          const response = await API.get(`/galery/users/${user.id}/galery`);
+          if (response.data.images) {
+            setGalleryImages(response.data.images);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching gallery images:', error);
+        // Fallback to default images if API fails
+        setGalleryImages([]);
+      }
+    };
+
+    fetchUserGallery();
+  }, [user]);
+
+  console.log(galleryImages);   
   const handleSlideChange = (splide) => {
     setTitleAnimation(true);
     setCurrentSlide(splide.index);
@@ -43,7 +57,7 @@ const HeroSlider = () => {
         }}
         onMoved={handleSlideChange}
       >
-        {sliderImages.map((image, index) => (
+        {galleryImages.map((image, index) => (
           <SplideSlide key={index}>
             <SlideImage component="img" src={image} alt={`Slide ${index + 1}`} />
           </SplideSlide>
